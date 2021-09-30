@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Виктор Чепкасов](https://up.htmlacademy.ru/react/8/user/1491015).
-* Наставник: `Неизвестно`.
+* Наставник: [Ирина Черкасова](https://up.htmlacademy.ru/profession/react/7/react/user/1427277).
 
 ---
 
