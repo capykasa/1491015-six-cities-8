@@ -3,12 +3,12 @@ import PlaceCard from '../place-card/place-card';
 const url = '';
 
 type MainScreenProps = {
-  cardCount: number;
+  placesCount: number;
 }
 
-function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
+function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
 
-  const placeCardArray = (count: number) => new Array(count).fill(null).map(() => PlaceCard());
+  const createPlaceCards = (count: number) => new Array(count).fill(null).map((_, index) => PlaceCard(index));
 
   return (
     <div className="page page--gray page--main">
@@ -82,7 +82,7 @@ function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cardCount} places to stay in Amsterdam</b>
+              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -99,7 +99,7 @@ function MainScreen({ cardCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {placeCardArray(cardCount)}
+                {createPlaceCards(placesCount)}
               </div>
             </section>
             <div className="cities__right-section">

@@ -2,14 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
 
-const Setting = {
-  CARD_COUNT: 5,
-};
+const CARD_COUNT = 5;
 
 ReactDOM.render(
   <React.StrictMode>
     <App
-      cardCount={Setting.CARD_COUNT}
+      placesCount={CARD_COUNT}
     />
   </React.StrictMode>,
   document.getElementById('root'));
