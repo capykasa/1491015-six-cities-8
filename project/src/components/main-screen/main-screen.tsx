@@ -1,3 +1,4 @@
+import Logo from '../logo/logo';
 import PlaceCard from '../place-card/place-card';
 
 const url = '';
@@ -8,7 +9,7 @@ type MainScreenProps = {
 
 function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
 
-  const createPlaceCards = (count: number) => new Array(count).fill(null).map((_, index) => PlaceCard(index));
+  const places = new Array(placesCount).fill(null).map((_, index) => ({ id: index }));
 
   return (
     <div className="page page--gray page--main">
@@ -16,9 +17,7 @@ function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link header__logo-link--active" href={url}>
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </a>
+              <Logo />
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -99,7 +98,7 @@ function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {createPlaceCards(placesCount)}
+                {places.map((place) => <PlaceCard key={place.id} />)}
               </div>
             </section>
             <div className="cities__right-section">
