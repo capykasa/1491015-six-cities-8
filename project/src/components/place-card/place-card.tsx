@@ -1,8 +1,8 @@
 const url = '';
 
-function PlaceCard(index: number): JSX.Element {
+function PlaceCard(): JSX.Element {
   return (
-    <article className="cities__place-card place-card" key={index}>
+    <article className="cities__place-card place-card">
       <div className="place-card__mark">
         <span>Premium</span >
       </div>

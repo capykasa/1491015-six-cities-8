@@ -8,7 +8,7 @@ type MainScreenProps = {
 
 function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
 
-  const createPlaceCards = (count: number) => new Array(count).fill(null).map((_, index) => PlaceCard(index));
+  const places = new Array(placesCount).fill(null).map((_, index) => ({ id: index }));
 
   return (
     <div className="page page--gray page--main">
@@ -99,7 +99,7 @@ function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {createPlaceCards(placesCount)}
+                {places.map((place) => <PlaceCard key={place.id} />)}
               </div>
             </section>
             <div className="cities__right-section">
