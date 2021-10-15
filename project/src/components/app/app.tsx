@@ -6,12 +6,14 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import PropertyScreen from '../property-screen/property-screen';
 import PageNotFound from '../page-not-found/page-not-found';
 import PrivateRoute from '../private-route/private-route';
+import { Offers } from '../../types/offers';
 
 type AppScreenProps = {
   placesCount: number;
+  offers: Offers[];
 }
 
-function App({ placesCount }: AppScreenProps): JSX.Element {
+function App({ placesCount, offers }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
