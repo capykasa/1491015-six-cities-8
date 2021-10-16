@@ -14,7 +14,7 @@ export const offers: Offers[] = [
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
-      avatarUrl: 'img/apartment-01.jpg',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Angelina',
@@ -48,7 +48,7 @@ export const offers: Offers[] = [
     description: 'Goor apartament',
     goods: ['Cable TV', 'Kitchen'],
     host: {
-      avatarUrl: 'img/apartment-02.jpg',
+      avatarUrl: 'img/avatar-max.jpg',
       id: 3,
       isPro: true,
       name: 'Lana',
@@ -82,7 +82,7 @@ export const offers: Offers[] = [
     description: 'Beautiful apartment, you will like it. Everyone likes it. Lots of rooms.',
     goods: ['Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
-      avatarUrl: 'img/apartment-03.jpg',
+      avatarUrl: 'img/avatar-angelina.jpg',
       id: 3,
       isPro: true,
       name: 'Max',
@@ -116,7 +116,7 @@ export const offers: Offers[] = [
     description: 'An ordinary apartment. Everything is as usual. The number of rooms is quite ordinary.',
     goods: ['Cable TV', 'Washing machine', 'Heating', 'Coffee machine'],
     host: {
-      avatarUrl: 'img/apartment-01.jpg',
+      avatarUrl: 'img/avatar-max.jpg',
       id: 3,
       isPro: false,
       name: 'Loran',

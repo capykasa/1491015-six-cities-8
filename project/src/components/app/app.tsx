@@ -10,7 +10,7 @@ import { Offers } from '../../types/offers';
 
 type AppScreenProps = {
   placesCount: number;
-  offers: Offers[];
+  offers: Offers;
 }
 
 function App({ placesCount, offers }: AppScreenProps): JSX.Element {
@@ -20,6 +20,7 @@ function App({ placesCount, offers }: AppScreenProps): JSX.Element {
         <Route exact path={AppRoute.Main}>
           <MainScreen
             placesCount={placesCount}
+            offers={offers}
           />
         </Route>
         <Route exact path={AppRoute.Login}>

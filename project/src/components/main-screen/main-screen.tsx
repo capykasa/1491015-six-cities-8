@@ -1,3 +1,4 @@
+import { Offers } from '../../types/offers';
 import Logo from '../logo/logo';
 import PlaceCard from '../place-card/place-card';
 
@@ -5,9 +6,10 @@ const url = '';
 
 type MainScreenProps = {
   placesCount: number;
+  offers: Offers;
 }
 
-function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
+function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
 
   const places = new Array(placesCount).fill(null).map((_, index) => ({ id: index }));
 
@@ -98,7 +100,11 @@ function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {places.map((place) => <PlaceCard key={place.id} />)}
+                {places.map((place) => (
+                  <PlaceCard
+                    key={place.id}
+                    offers={offers}
+                  />))}
               </div>
             </section>
             <div className="cities__right-section">
