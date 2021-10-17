@@ -21,7 +21,7 @@ export const offers: Offer[] = [
     },
     id: 124124,
     images: ['img/apartment-01.jpg', 'img/apartment-02.jpg'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
       latitude: 52.35514938496378,
@@ -55,7 +55,7 @@ export const offers: Offer[] = [
     },
     id: 22351,
     images: ['img/apartment-02.jpg', 'img/apartment-03.jpg'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     location: {
       latitude: 50.35514938496378,
@@ -123,7 +123,7 @@ export const offers: Offer[] = [
     },
     id: 41685,
     images: ['img/apartment-01.jpg', 'img/apartment-03.jpg'],
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     location: {
       latitude: 55.35514938496378,
