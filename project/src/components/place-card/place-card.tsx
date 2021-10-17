@@ -1,20 +1,31 @@
-import { Offers } from '../../types/offers';
+/* eslint-disable no-console */
+import { useState } from 'react';
+import { Offer } from '../../types/offers';
 
 const url = '';
 
 type PlaceCardProps = {
-  offers: Offers;
+  offers: Offer;
 };
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
   const { offers } = props;
-  const { /* isPremium, */ previewImage, price, /* rating, */ title, type } = offers;
+  const { id, isPremium, previewImage, price, /* rating, */ title, type } = offers;
+
+  const [card, setCard] = useState(0); // Если убрать значение, то требуется обозначить тип. Как это правильно сделать?
 
   return (
-    <article className="cities__place-card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span >
-      </div>
+    <article key={id} // *Что-то на бесполезном* =)
+      onPointerEnter={() => {
+        setCard(id);
+        console.log(card); // Как не вызывать card? Или как вызывать? Я же и так сохраняю в card id строчкой выше
+      }}
+      className="cities__place-card place-card"
+    >
+      {isPremium ?
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div> : ''}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href={url}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place" />

@@ -16,7 +16,7 @@ type OfferHost = {
   name: string,
 };
 
-export type Offers = {
+export type Offer = {
   bedrooms: number,
   city: OfferCity,
   description: string,
