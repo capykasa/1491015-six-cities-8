@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useHistory } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 
@@ -11,7 +12,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const { offers } = props;
   const { id, isFavorite, price, title, type } = offers;
 
-  const history = useHistory(); // Не очень понял что это и как должно работать. Работает плохо, собственно.
+  const history = useHistory();
+  console.log(history);
 
   return (
     <div className="place-card__info">
@@ -37,7 +39,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         <a
           onClick={(evt) => {
             evt.preventDefault();
-            history.push(`/offer/:${id}`);
+            history.push(`/offer/:${id}`, id);
           }}
           href={url}
         >
