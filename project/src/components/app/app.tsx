@@ -34,7 +34,9 @@ function App({ placesCount, offers }: AppScreenProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <PropertyScreen />
+          <PropertyScreen
+            offers={offers}
+          />
         </Route>
         <Route>
           <PageNotFound />

@@ -4,7 +4,7 @@ export const reviews: Reviews[] = [
   {
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: '2019-05-08T14:13:56.569Z',
-    id: 1,
+    id: 124124,
     rating: 4,
     user: {
       avatarUrl: 'img/avatar-max.png',
@@ -16,7 +16,7 @@ export const reviews: Reviews[] = [
   {
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: '2019-05-08T14:13:56.569Z',
-    id: 2,
+    id: 124124,
     rating: 8,
     user: {
       avatarUrl: 'img/avatar-angelina.png',
@@ -28,7 +28,7 @@ export const reviews: Reviews[] = [
   {
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: '2019-05-08T14:13:56.569Z',
-    id: 3,
+    id: 37894,
     rating: 4,
     user: {
       avatarUrl: 'img/avatar-max.png',
@@ -40,7 +40,7 @@ export const reviews: Reviews[] = [
   {
     comment: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     date: '2019-05-08T14:13:56.569Z',
-    id: 4,
+    id: 41685,
     rating: 8,
     user: {
       avatarUrl: 'img/avatar-angelina.png',

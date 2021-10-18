@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 
 const url = '';
@@ -8,7 +9,9 @@ type PlaceCardProps = {
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
   const { offers } = props;
-  const { isFavorite, price, title, type } = offers;
+  const { id, isFavorite, price, title, type } = offers;
+
+  const history = useHistory(); // Не очень понял что это и как должно работать. Работает плохо, собственно.
 
   return (
     <div className="place-card__info">
@@ -31,7 +34,15 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         </div>
       </div>
       <h2 className="place-card__name">
-        <a href={url}>{title}</a>
+        <a
+          onClick={(evt) => {
+            evt.preventDefault();
+            history.push(`/offer/:${id}`);
+          }}
+          href={url}
+        >
+          {title}
+        </a>
       </h2>
       <p className="place-card__type">{type}</p>
     </div>
