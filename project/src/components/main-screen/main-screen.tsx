@@ -1,5 +1,5 @@
 import Logo from '../logo/logo';
-import OffersList from '../offers-list/offers-list';
+import MainOffersList from '../offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
 
 const url = '';
@@ -97,7 +97,7 @@ function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList
+              <MainOffersList
                 placesCount={placesCount}
                 offers={offers}
               />
