@@ -1,6 +1,6 @@
 import Logo from '../logo/logo';
 import { Offer } from '../../types/offers';
-import PlaceCard from '../place-card/place-card';
+import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
 
 const url = '';
 
@@ -8,10 +8,7 @@ type OffersListProps = {
   offers: Offer[];
 }
 
-// СОЗДАТЬ НОВЫЙ КОМПОНЕНТ ПО ТИПУ main-offers-list И ОТОБРАЗИТЬ КАРТОЧКИ ПО ГОРОДАМ
-
 function FavoritesScreen({ offers }: OffersListProps): JSX.Element {
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
 
   return (
     <div className="page">
@@ -45,37 +42,13 @@ function FavoritesScreen({ offers }: OffersListProps): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href={url}>
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  {favoritesOffers.map((item: Offer) => (
-                    <article key={item.id}
-                      className="favorites__card place-card"
-                    >
-                      <div className="favorites__image-wrapper place-card__image-wrapper">
-                        <a href={url}>
-                          <img className="place-card__image" src={item.previewImage} width="150" height="110" alt="Place" />
-                        </a>
-                      </div>
-                      <PlaceCard
-                        offers={item}
-                      />
-                    </article>
-                  ))}
-                </div>
-              </li>
-            </ul>
+            <FvoritesOffersList
+              offers={offers}
+            />
           </section>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 }
 

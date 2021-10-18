@@ -10,22 +10,6 @@ type OffersListProps = {
 
 const url = '';
 
-/* function MainOffersList({ placesCount, offers }: OffersListProps): JSX.Element {
-
-  const [activeCardId, setActiveCardId] = useState<Offer | number | null>(null);
-
-  return (
-    <div className="cities__places-list places__list tabs__content">
-      {offers.map((item) => (
-        <PlaceCard
-          key={item.id}
-          offers={item}
-          focusCard={() => setActiveCardId(activeCardId)}
-        />))}
-    </div>
-  );
-} */
-
 function MainOffersList({ placesCount, offers }: OffersListProps): JSX.Element {
 
   const [activeCardId, setActiveCardId] = useState<Offer | number | null>(null);
