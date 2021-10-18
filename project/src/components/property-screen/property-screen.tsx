@@ -1,16 +1,19 @@
 /* eslint-disable no-console */
 import { Offer } from '../../types/offers';
+import { Reviews } from '../../types/reviews';
 import Logo from '../logo/logo';
 
 type PropertyScreenProps = {
   offers: Offer[];
+  reviews: Reviews[];
 }
 
 const url = '';
 
-function PropertyScreen({ offers }: PropertyScreenProps): JSX.Element {
+function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
 
   //const offer = offers;
+  console.log(window.location.pathname);
 
   //const { host, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, description } = offer;
   //const { avatarUrl, name, isPro } = host;

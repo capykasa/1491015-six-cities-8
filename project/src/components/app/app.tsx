@@ -7,13 +7,15 @@ import PropertyScreen from '../property-screen/property-screen';
 import PageNotFound from '../page-not-found/page-not-found';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offers';
+import { Reviews } from '../../types/reviews';
 
 type AppScreenProps = {
   placesCount: number;
   offers: Offer[];
+  reviews: Reviews[];
 }
 
-function App({ placesCount, offers }: AppScreenProps): JSX.Element {
+function App({ placesCount, offers, reviews }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
@@ -36,6 +38,7 @@ function App({ placesCount, offers }: AppScreenProps): JSX.Element {
         <Route exact path={AppRoute.Room}>
           <PropertyScreen
             offers={offers}
+            reviews={reviews}
           />
         </Route>
         <Route>
