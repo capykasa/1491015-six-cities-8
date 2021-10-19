@@ -1,10 +1,11 @@
+//import { useState } from 'react';
+
 /* type SendingReviewFormProps = {
-  form: string;
   submitForm: string;
 } */
 
 function SendingReviewForm(/* { submitForm }: SendingReviewFormProps */): JSX.Element {
-
+  //const [userReview, setUserReview] = useState();
 
   return (
     <form className="reviews__form form" action="#" method="post">
