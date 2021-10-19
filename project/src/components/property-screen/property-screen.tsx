@@ -1,4 +1,5 @@
-import { useHistory } from 'react-router-dom';
+/* eslint-disable no-console */
+import { useParams } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import { Reviews } from '../../types/reviews';
 import Logo from '../logo/logo';
@@ -12,16 +13,14 @@ type PropertyScreenProps = {
 const url = '';
 
 function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
-  const history = useHistory();
+  const params = useParams();
 
-  const offer = offers.filter((currentOffer) => currentOffer.id === history.location.state);
-  const review = reviews.filter((currentReview) => currentReview.id === history.location.state);
+  const offer = offers.find((currentOffer) => `:${currentOffer.id}` === params.id);
+  const review = reviews.filter((currentReview) => `:${currentReview.id}` === params.id);
+  console.log(offer);
 
   const { host, images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, description } = offer;
   const { avatarUrl, name, isPro } = host;
-
-  const { user, comment, date, rating, } = review;
-  const { avatarUrl, isPro, name } = user;
 
   return (
     <div className="page">
@@ -106,11 +105,11 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {goods.map((good) => {
+                  {goods.map((good) => (
                     <li className="property__inside-item">
                       {good}
-                    </li>;
-                  })}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="property__host">
@@ -135,8 +134,10 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review.length}</span></h2>
                 {review.length > 0 ?
-                  review.map((currentReview) => {
-                    <ul className="reviews__list">
+                  review.map((currentReview) => (
+                    <ul key={currentReview.id}
+                      className="reviews__list"
+                    >
                       <li className="reviews__item">
                         <div className="reviews__user user">
                           <div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -159,8 +160,8 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
                           <time className="reviews__time" dateTime={currentReview.date}>{currentReview.date}</time>
                         </div>
                       </li>
-                    </ul>;
-                  }) : ''}
+                    </ul>
+                  )) : ''}
                 <SendingReviewForm />
               </section>
             </div>

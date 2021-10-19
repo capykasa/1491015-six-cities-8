@@ -13,7 +13,6 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const { id, isFavorite, price, title, type } = offers;
 
   const history = useHistory();
-  console.log(history);
 
   return (
     <div className="place-card__info">
