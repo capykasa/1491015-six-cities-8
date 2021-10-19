@@ -172,7 +172,11 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
                         </li>
                       </ul>
                     )) : ''}
-                  <SendingReviewForm />
+                  <SendingReviewForm
+                    submitForm={() => {
+                      throw new Error('Function \'submitForm\' isn\'t implemented.');
+                    }}
+                  />
                 </section>
               </div>
             </div>

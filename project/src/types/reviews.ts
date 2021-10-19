@@ -6,7 +6,7 @@ type ReviewUser = {
 };
 
 export type Reviews = {
-  comment: string;
+  comment: string | null;
   date: string;
   id: number;
   rating: number;

@@ -1,16 +1,42 @@
-//import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { Reviews } from '../../types/reviews';
 
-/* type SendingReviewFormProps = {
-  submitForm: string;
-} */
+type SendingReviewFormProps = {
+  submitForm: (Reviews: Reviews) => void;
+}
 
-function SendingReviewForm(/* { submitForm }: SendingReviewFormProps */): JSX.Element {
-  //const [userReview, setUserReview] = useState();
+function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element {
+  const [userReview, setUserReview] = useState<Reviews>({
+    comment: '',
+    date: '',
+    id: 0,
+    rating: 0,
+    user: {
+      avatarUrl: '',
+      id: 0,
+      isPro: false,
+      name: '',
+    },
+  });
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        submitForm(userReview);
+      }}
+      className="reviews__form form" action="#" method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating">
+      <div
+        onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+          setUserReview({
+            ...userReview,
+            rating: Number(target.value),
+          });
+        }}
+        className="reviews__rating-form form__rating"
+      >
         <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
@@ -46,14 +72,23 @@ function SendingReviewForm(/* { submitForm }: SendingReviewFormProps */): JSX.El
           </svg>
         </label>
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea
+        onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+          setUserReview({
+            ...userReview,
+            comment: target.value,
+          });
+        }}
+        className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"
+      >
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
       </div>
-    </form>
+    </form >
   );
 }
 
