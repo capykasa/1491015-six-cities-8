@@ -1,15 +1,15 @@
 import Logo from '../logo/logo';
-import PlaceCard from '../place-card/place-card';
+import MainOffersList from '../main-offers-list/main-offers-list';
+import { Offer } from '../../types/offers';
 
 const url = '';
 
 type MainScreenProps = {
   placesCount: number;
+  offers: Offer[];
 }
 
-function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
-
-  const places = new Array(placesCount).fill(null).map((_, index) => ({ id: index }));
+function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -97,9 +97,10 @@ function MainScreen({ placesCount }: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {places.map((place) => <PlaceCard key={place.id} />)}
-              </div>
+              <MainOffersList
+                placesCount={placesCount}
+                offers={offers}
+              />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
