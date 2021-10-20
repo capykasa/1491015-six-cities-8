@@ -1,5 +1,5 @@
 import Logo from '../logo/logo';
-import MainOffersList from '../offers-list/main-offers-list';
+import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
 
 const url = '';

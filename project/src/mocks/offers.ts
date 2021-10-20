@@ -77,7 +77,7 @@ export const offers: Offer[] = [
         longitude: 5.895168,
         zoom: 10,
       },
-      name: 'Amsterdam',
+      name: 'Brussels',
     },
     description: 'Beautiful apartment, you will like it. Everyone likes it. Lots of rooms.',
     goods: ['Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],

@@ -1,18 +1,13 @@
-/* eslint-disable no-console */
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 
-const url = '';
-
-type PlaceCardProps = {
+type OfferCardProps = {
   offers: Offer;
 };
 
-function PlaceCard(props: PlaceCardProps): JSX.Element {
+function OfferCard(props: OfferCardProps): JSX.Element {
   const { offers } = props;
   const { id, isFavorite, price, title, type } = offers;
-
-  const history = useHistory();
 
   return (
     <div className="place-card__info">
@@ -35,19 +30,13 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         </div>
       </div>
       <h2 className="place-card__name">
-        <a
-          onClick={(evt) => {
-            evt.preventDefault();
-            history.push(`/offer/:${id}`, id);
-          }}
-          href={url}
-        >
+        <Link to={`/offer/:${id}`}>
           {title}
-        </a>
+        </Link>
       </h2>
       <p className="place-card__type">{type}</p>
     </div>
   );
 }
 
-export default PlaceCard;
+export default OfferCard;

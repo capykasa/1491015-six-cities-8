@@ -1,83 +1,48 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Reviews } from '../../types/reviews';
+import { ReviewComment, ReviewRating } from '../../types/reviews';
 
 type SendingReviewFormProps = {
-  submitForm: (Reviews: Reviews) => void;
+  submitForm: (comment: ReviewComment, rating: ReviewRating) => void;
 }
 
+const STARS = [5, 4, 3, 2, 1];
+
 function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element {
-  const [userReview, setUserReview] = useState<Reviews>({
-    comment: '',
-    date: '',
-    id: 0,
-    rating: 0,
-    user: {
-      avatarUrl: '',
-      id: 0,
-      isPro: false,
-      name: '',
-    },
-  });
+  const [userComment, setUserComment] = useState({ comment: '' });
+  const [userRating, setUserRating] = useState({ rating: 0 });
 
   return (
     <form
       onSubmit={(evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
-        submitForm(userReview);
+        submitForm(userComment, userRating);
       }}
       className="reviews__form form" action="#" method="post"
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-          setUserReview({
-            ...userReview,
-            rating: Number(target.value),
-          });
+          setUserRating({ rating: Number(target.value) });
         }}
         className="reviews__rating-form form__rating"
       >
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio" />
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio" />
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio" />
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio" />
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio" />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {STARS.map((star) => (
+          <>
+            <input
+              key={star}
+              className="form__rating-input visually-hidden" name="rating" value={star.toString()} id={`${star}-stars`} type="radio"
+            />
+            <label htmlFor={`${star}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
+              <svg className="form__star-image" width="37" height="33">
+                <use xlinkHref="#icon-star"></use>
+              </svg>
+            </label>
+          </>
+        ))}
       </div>
       <textarea
         onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-          setUserReview({
-            ...userReview,
-            comment: target.value,
-          });
+          setUserComment({ comment: target.value });
         }}
         className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"
       >

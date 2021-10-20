@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
-import PlaceCard from '../place-card/place-card';
+import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   placesCount: number;
   offers: Offer[];
 }
-
-const url = '';
 
 function MainOffersList({ placesCount, offers }: OffersListProps): JSX.Element {
 
@@ -20,24 +19,23 @@ function MainOffersList({ placesCount, offers }: OffersListProps): JSX.Element {
         <article key={item.id}
           onPointerEnter={() => {
             setActiveCardId(item.id);
-            console.log(activeCardId);
+            console.log(activeCardId); // УБРАТЬ
           }}
           onPointerLeave={() => {
             setActiveCardId(null);
-            console.log(activeCardId);
           }}
           className="cities__place-card place-card"
         >
-          {item.isPremium ?
+          {item.isPremium &&
             <div className="place-card__mark">
               <span>Premium</span>
-            </div> : ''}
+            </div>}
           <div className="cities__image-wrapper place-card__image-wrapper">
-            <a href={url}>
+            <Link to=''>
               <img className="place-card__image" src={item.previewImage} width="260" height="200" alt="Place" />
-            </a>
+            </Link>
           </div>
-          <PlaceCard
+          <OfferCard
             offers={item}
           />
         </article>
