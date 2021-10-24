@@ -1,27 +1,26 @@
-/* eslint-disable no-console */
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
-  placesCount: number;
   offers: Offer[];
+  onListItemHover: (listItemName: number | null) => void;
 }
 
-function MainOffersList({ placesCount, offers }: OffersListProps): JSX.Element {
+function MainOffersList({ offers, onListItemHover }: OffersListProps): JSX.Element {
 
-  const [activeCardId, setActiveCardId] = useState<Offer | number | null>(null);
+  const [activeCardId, setActiveCardId] = useState<number | null>(null);
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((item: Offer) => (
         <article key={item.id}
-          onPointerEnter={() => {
+          onMouseEnter={() => {
             setActiveCardId(item.id);
-            console.log(activeCardId); // УБРАТЬ
+            onListItemHover(activeCardId);
           }}
-          onPointerLeave={() => {
+          onMouseLeave={() => {
             setActiveCardId(null);
           }}
           className="cities__place-card place-card"

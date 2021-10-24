@@ -8,21 +8,22 @@ import PageNotFound from '../page-not-found/page-not-found';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offers';
 import { Review } from '../../types/reviews';
+import { Cities } from '../../types/sities';
 
 type AppScreenProps = {
-  placesCount: number;
   offers: Offer[];
   reviews: Review[];
+  cities: Cities;
 }
 
-function App({ placesCount, offers, reviews }: AppScreenProps): JSX.Element {
+function App({ offers, reviews, cities }: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen
-            placesCount={placesCount}
             offers={offers}
+            cities={cities}
           />
         </Route>
         <Route exact path={AppRoute.Login}>
