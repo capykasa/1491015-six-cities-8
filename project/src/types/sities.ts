@@ -1,6 +1,6 @@
-export type Cities = {
+export type City = {
   Amsterdam: {
-    title: string;
+    title?: string;
     latitude: number;
     longitude: number;
     zoom: number;

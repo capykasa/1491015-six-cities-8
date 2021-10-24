@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
-import { Cities } from '../../types/sities';
+import { City } from '../../types/sities';
 import Map from '../map/map';
 import { useState } from 'react';
 
@@ -9,19 +10,17 @@ const url = '';
 
 type MainScreenProps = {
   offers: Offer[];
-  cities: Cities;
+  cities: City;
 }
 
 function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
 
-  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
-    undefined,
+  const [selectedPoint, setSelectedPoint] = useState<Offer | null>(
+    null,
   );
 
-  const onListItemHover = (listItemId: string | number | null) => {
-    const currentPoint = offers.find((offer) => offer.id === listItemId);
-
-    setSelectedPoint(currentPoint);
+  const onListItemHover = (listItemId: Offer | null) => {
+    setSelectedPoint(listItemId);
   };
 
   return (
@@ -117,7 +116,6 @@ function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                {/* <MapPoints points={offers} onListItemHover={onListItemHover} /> */}
                 <Map city={cities} points={offers} selectedPoint={selectedPoint} />
               </section>
             </div>

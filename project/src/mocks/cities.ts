@@ -1,6 +1,6 @@
-import { Cities } from '../types/sities';
+import { City } from '../types/sities';
 
-export const cities: Cities = {
+export const cities: City = {
   Amsterdam: {
     title: 'Amsterdam',
     latitude: 52.370216,
