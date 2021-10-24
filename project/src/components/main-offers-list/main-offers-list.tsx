@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+//import { MouseEvent } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
@@ -5,12 +7,18 @@ import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  onListItemHover: (listItemName: number | null) => void;
+  onListItemHover: (listItemName: string | number | null) => void;
 }
 
 function MainOffersList({ offers, onListItemHover }: OffersListProps): JSX.Element {
 
-  const [activeCardId, setActiveCardId] = useState<number | null>(null);
+  const [activeCardId, setActiveCardId] = useState<string | number | null>(null);
+  console.log('2', activeCardId);
+
+  /* const listItemHoverHandler = (event: MouseEvent<HTMLLIElement>) => {
+    event.preventDefault();
+    onListItemHover(event.currentTarget.innerText);
+  }; */
 
   return (
     <div className="cities__places-list places__list tabs__content">

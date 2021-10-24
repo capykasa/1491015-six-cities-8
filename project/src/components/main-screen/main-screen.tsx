@@ -18,7 +18,7 @@ function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
     undefined,
   );
 
-  const onListItemHover = (listItemId: number | null) => {
+  const onListItemHover = (listItemId: string | number | null) => {
     const currentPoint = offers.find((offer) => offer.id === listItemId);
 
     setSelectedPoint(currentPoint);

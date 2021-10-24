@@ -16,7 +16,7 @@ export type ReviewRating = {
 export type Review = {
   comment: string | null;
   date: string;
-  id: number;
+  id: number | string;
   rating: number;
   user: ReviewUser;
 };
