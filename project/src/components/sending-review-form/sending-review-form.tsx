@@ -27,9 +27,10 @@ function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element 
         className="reviews__rating-form form__rating"
       >
         {STARS.map((star) => (
-          <>
+          <div
+            key={star}
+          >
             <input
-              key={star}
               className="form__rating-input visually-hidden" name="rating" value={star.toString()} id={`${star}-stars`} type="radio"
             />
             <label htmlFor={`${star}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
@@ -37,7 +38,7 @@ function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element 
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </>
+          </div>
         ))}
       </div>
       <textarea

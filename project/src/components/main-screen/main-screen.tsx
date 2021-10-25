@@ -1,15 +1,27 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
+import { City } from '../../types/sities';
+import Map from '../map/map';
+import { useState } from 'react';
 
 const url = '';
 
 type MainScreenProps = {
-  placesCount: number;
   offers: Offer[];
+  cities: City;
 }
 
-function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
+function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
+
+  const [selectedPoint, setSelectedPoint] = useState<Offer | null>(
+    null,
+  );
+
+  const onListItemHover = (listItemId: Offer | null) => {
+    setSelectedPoint(listItemId);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -81,7 +93,7 @@ function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -98,12 +110,14 @@ function MainScreen({ placesCount, offers }: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <MainOffersList
-                placesCount={placesCount}
                 offers={offers}
+                onListItemHover={onListItemHover}
               />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map city={cities} points={offers} selectedPoint={selectedPoint} />
+              </section>
             </div>
           </div>
         </div>

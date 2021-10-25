@@ -22,7 +22,7 @@ export type Offer = {
   description: string,
   goods: string[],
   host: OfferHost,
-  id: number,
+  id: number | string,
   images: string[],
   isFavorite: boolean,
   isPremium: boolean,
