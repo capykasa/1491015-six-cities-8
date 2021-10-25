@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/use-map/use-map';
@@ -29,6 +30,7 @@ function Map(props: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+  console.log(useRef());
 
   useEffect(() => {
     if (map) {

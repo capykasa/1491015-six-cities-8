@@ -40,6 +40,7 @@ function App({ offers, reviews, cities }: AppScreenProps): JSX.Element {
           <DetailOfferScreen
             offers={offers}
             reviews={reviews}
+            cities={cities}
           />
         </Route>
         <Route>

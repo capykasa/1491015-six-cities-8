@@ -1,27 +1,48 @@
+/* eslint-disable no-console */
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
 import { Review } from '../../types/reviews';
 import Logo from '../logo/logo';
+import MainOffersList from '../main-offers-list/main-offers-list';
+import Map from '../map/map';
 import PageNotFound from '../page-not-found/page-not-found';
 import ReviewsList from '../reviews-list/reviews-list';
 
 type DetailOfferScreenProps = {
   offers: Offer[];
   reviews: Review[];
+  cities: City;
 }
-
+const NEAR_CARD_COUNT = 3;
 const url = '';
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Element {
+function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps): JSX.Element {
+
+  const [selectedPoint, setSelectedPoint] = useState<Offer | null>(
+    null,
+  );
+
+  const onListItemHover = (listItem: Offer | null) => {
+    setSelectedPoint(listItem);
+  };
+
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
-  const offer = offers.find((currentOffer) => currentOffer.id === paramId);
+  const thisOffer = offers.find((offer) => offer.id === paramId);
   const review = reviews.filter((currentReview) => currentReview.id === paramId);
+  let nearOffers = offers.slice();
 
-  if (!offer) {
+  if (offers.length > NEAR_CARD_COUNT && thisOffer !== undefined) {
+    nearOffers = offers.filter((offer) => offer.id !== thisOffer.id);
+    nearOffers.slice(NEAR_CARD_COUNT);
+  }
+
+  if (!thisOffer) {
     return <PageNotFound />;
   }
 
@@ -57,7 +78,7 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.images.map((image) => (
+              {thisOffer.images.map((image) => (
                 <div
                   key={image}
                   className="property__image-wrapper"
@@ -70,14 +91,14 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
           <div className="property__container container">
             <div className="property__wrapper">
               <div className="property__mark">
-                {offer.isPremium ?
+                {thisOffer.isPremium ?
                   <div className="place-card__mark">
                     <span>Premium</span>
                   </div> : ''}
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {offer.title}
+                  {thisOffer.title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -91,27 +112,27 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
                   <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{offer.rating}</span>
+                <span className="property__rating-value rating__value">{thisOffer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer.type}
+                  {thisOffer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms}
+                  {thisOffer.bedrooms}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {offer.maxAdults}
+                  {thisOffer.maxAdults}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer.price}</b>
+                <b className="property__price-value">&euro;{thisOffer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.goods.map((good) => (
+                  {thisOffer.goods.map((good) => (
                     <li
                       key={good}
                       className="property__inside-item"
@@ -125,18 +146,18 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={thisOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {offer.host.name}
+                    {thisOffer.host.name}
                   </span>
                   <span className="property__user-status">
-                    {offer.host.isPro}
+                    {thisOffer.host.isPro}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {offer.description}
+                    {thisOffer.description}
                   </p>
                 </div>
               </div>
@@ -145,110 +166,21 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
               />
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map city={cities} points={nearOffers} selectedPoint={selectedPoint} />
+          </section>
         </section>
-        {/* <div className="container">
+        <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href={url}>
-                    <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;80</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">In bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '80%' }}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href={url}>Wood and stone place</a>
-                  </h2>
-                  <p className="place-card__type">Private room</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href={url}>
-                    <img className="place-card__image" src="img/apartment-02.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;132</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '80%' }}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href={url}>Canal View Prinsengracht</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
-
-              <article className="near-places__card place-card">
-                <div className="near-places__image-wrapper place-card__image-wrapper">
-                  <a href={url}>
-                    <img className="place-card__image" src="img/apartment-03.jpg" width="260" height="200" alt="Place" />
-                  </a>
-                </div>
-                <div className="place-card__info">
-                  <div className="place-card__price-wrapper">
-                    <div className="place-card__price">
-                      <b className="place-card__price-value">&euro;180</b>
-                      <span className="place-card__price-text">&#47;&nbsp;night</span>
-                    </div>
-                    <button className="place-card__bookmark-button button" type="button">
-                      <svg className="place-card__bookmark-icon" width="18" height="19">
-                        <use xlinkHref="#icon-bookmark"></use>
-                      </svg>
-                      <span className="visually-hidden">To bookmarks</span>
-                    </button>
-                  </div>
-                  <div className="place-card__rating rating">
-                    <div className="place-card__stars rating__stars">
-                      <span style={{ width: '100%' }}></span>
-                      <span className="visually-hidden">Rating</span>
-                    </div>
-                  </div>
-                  <h2 className="place-card__name">
-                    <a href={url}>Nice, cozy, warm big bed apartment</a>
-                  </h2>
-                  <p className="place-card__type">Apartment</p>
-                </div>
-              </article>
+              <MainOffersList
+                offers={nearOffers}
+                onListItemHover={onListItemHover}
+              />
             </div>
           </section>
-        </div> */}
+        </div>
       </main>
     </div>
   );

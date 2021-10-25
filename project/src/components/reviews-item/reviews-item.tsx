@@ -1,10 +1,10 @@
 import { Review } from '../../types/reviews';
 
-type ReviewItem = {
+type ReviewItemProps = {
   review: Review;
 };
 
-function ReviewItem({ review }: ReviewItem): JSX.Element {
+function ReviewItem({ review }: ReviewItemProps): JSX.Element {
   return (
     <>
       <div className="reviews__user user">

@@ -18,8 +18,8 @@ function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
     null,
   );
 
-  const onListItemHover = (listItemId: Offer | null) => {
-    setSelectedPoint(listItemId);
+  const onListItemHover = (listItem: Offer | null) => {
+    setSelectedPoint(listItem);
   };
 
   return (

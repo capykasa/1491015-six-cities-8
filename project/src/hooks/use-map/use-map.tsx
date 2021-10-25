@@ -15,7 +15,7 @@ function useMap(
           lat: city.latitude,
           lng: city.longitude,
         },
-        zoom: 10,
+        zoom: 11,
       });
 
       const layer = new TileLayer(
