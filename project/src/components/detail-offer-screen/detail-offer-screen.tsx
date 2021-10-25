@@ -3,7 +3,7 @@ import { Offer } from '../../types/offers';
 import { Review } from '../../types/reviews';
 import Logo from '../logo/logo';
 import PageNotFound from '../page-not-found/page-not-found';
-import SendingReviewForm from '../sending-review-form/sending-review-form';
+import ReviewsList from '../reviews-list/reviews-list';
 
 type DetailOfferScreenProps = {
   offers: Offer[];
@@ -140,43 +140,9 @@ function DetailOfferScreen({ offers, reviews }: DetailOfferScreenProps): JSX.Ele
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{review.length}</span></h2>
-                {review.length > 0 ?
-                  review.map((currentReview) => (
-                    <ul key={currentReview.id}
-                      className="reviews__list"
-                    >
-                      <li className="reviews__item">
-                        <div className="reviews__user user">
-                          <div className="reviews__avatar-wrapper user__avatar-wrapper">
-                            <img className="reviews__avatar user__avatar" src={currentReview.user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
-                          </div>
-                          <span className="reviews__user-name">
-                            {currentReview.user.name}
-                          </span>
-                        </div>
-                        <div className="reviews__info">
-                          <div className="reviews__rating rating">
-                            <div className="reviews__stars rating__stars">
-                              <span style={{ width: '80%' }}></span>
-                              <span className="visually-hidden">Rating</span>
-                            </div>
-                          </div>
-                          <p className="reviews__text">
-                            {currentReview.comment}
-                          </p>
-                          <time className="reviews__time" dateTime={currentReview.date}>{currentReview.date}</time>
-                        </div>
-                      </li>
-                    </ul>
-                  )) : ''}
-                <SendingReviewForm
-                  submitForm={() => {
-                    throw new Error('Function \'submitForm\' isn\'t implemented.');
-                  }}
-                />
-              </section>
+              <ReviewsList
+                reviews={review}
+              />
             </div>
           </div>
           <section className="property__map map"></section>
