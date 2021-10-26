@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
 import { Review } from '../../types/reviews';
 import Logo from '../logo/logo';
-import MainOffersList from '../main-offers-list/main-offers-list';
 import Map from '../map/map';
+import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 
@@ -27,6 +28,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
 
   const onListItemHover = (listItem: Offer | null) => {
     setSelectedPoint(listItem);
+    console.log(listItem);
   };
 
   const params = useParams() as { id: string };
@@ -173,7 +175,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <MainOffersList
+              <NearOffersList
                 offers={nearOffers}
                 onListItemHover={onListItemHover}
               />
