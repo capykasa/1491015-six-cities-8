@@ -2,26 +2,26 @@ import { useRef, useEffect } from 'react';
 import { Icon, Marker } from 'leaflet';
 import useMap from '../../hooks/use-map/use-map';
 import { Offer } from '../../types/offers';
-import { City } from '../../types/sities';
+import { City } from '../../types/cities';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
   points: Offer[];
-  selectedPoint: Offer | null;
+  selectedPoint: Offer | undefined | null;
 };
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [30, 40],
+  iconAnchor: [15, 40],
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [30, 40],
+  iconAnchor: [15, 40],
 });
 
 function Map(props: MapProps): JSX.Element {
@@ -40,7 +40,7 @@ function Map(props: MapProps): JSX.Element {
 
         marker
           .setIcon(
-            selectedPoint !== null && point.title === selectedPoint.title
+            selectedPoint !== null && selectedPoint !== undefined && point.title === selectedPoint.title
               ? currentCustomIcon
               : defaultCustomIcon,
           )
@@ -49,7 +49,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, points, selectedPoint]);
 
-  return <div style={{ height: '500px' }} ref={mapRef}></div>;
+  return <div style={{ height: '100%' }} ref={mapRef}></div>;
 }
 
 export default Map;

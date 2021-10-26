@@ -8,7 +8,7 @@ import PageNotFound from '../page-not-found/page-not-found';
 import PrivateRoute from '../private-route/private-route';
 import { Offer } from '../../types/offers';
 import { Review } from '../../types/reviews';
-import { City } from '../../types/sities';
+import { City } from '../../types/cities';
 
 type AppScreenProps = {
   offers: Offer[];
@@ -40,6 +40,7 @@ function App({ offers, reviews, cities }: AppScreenProps): JSX.Element {
           <DetailOfferScreen
             offers={offers}
             reviews={reviews}
+            cities={cities}
           />
         </Route>
         <Route>

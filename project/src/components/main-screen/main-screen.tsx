@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
-import { City } from '../../types/sities';
+import { City } from '../../types/cities';
 import Map from '../map/map';
 import { useState } from 'react';
 
@@ -19,8 +18,8 @@ function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
     null,
   );
 
-  const onListItemHover = (listItemId: Offer | null) => {
-    setSelectedPoint(listItemId);
+  const onListItemHover = (listItem: Offer | null) => {
+    setSelectedPoint(listItem);
   };
 
   return (
