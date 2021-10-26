@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
@@ -8,7 +7,7 @@ import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import Map from '../map/map';
 import PageNotFound from '../page-not-found/page-not-found';
-import ReviewsList from '../reviews-list/reviews-list';
+import Reviews from '../reviews/reviews';
 
 type DetailOfferScreenProps = {
   offers: Offer[];
@@ -33,17 +32,17 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
-  const thisOffer = offers.find((offer) => offer.id === paramId);
+  const offer = offers.find((item) => item.id === paramId);
   const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
 
-  if (offers.length > NEAR_CARD_COUNT && thisOffer !== undefined) {
-    nearOffers = offers.filter((offer) => offer.id !== thisOffer.id);
-    nearOffers.slice(NEAR_CARD_COUNT);
+  if (!offer) {
+    return <PageNotFound />;
   }
 
-  if (!thisOffer) {
-    return <PageNotFound />;
+  if (offers.length > NEAR_CARD_COUNT) {
+    nearOffers = offers.filter((item) => item.id !== offer.id);
+    nearOffers.slice(NEAR_CARD_COUNT);
   }
 
   return (
@@ -78,7 +77,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {thisOffer.images.map((image) => (
+              {offer.images.map((image) => (
                 <div
                   key={image}
                   className="property__image-wrapper"
@@ -91,14 +90,14 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
           <div className="property__container container">
             <div className="property__wrapper">
               <div className="property__mark">
-                {thisOffer.isPremium ?
+                {offer.isPremium ?
                   <div className="place-card__mark">
                     <span>Premium</span>
                   </div> : ''}
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {thisOffer.title}
+                  {offer.title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -112,27 +111,27 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
                   <span style={{ width: '80%' }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{thisOffer.rating}</span>
+                <span className="property__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {thisOffer.type}
+                  {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {thisOffer.bedrooms}
+                  {offer.bedrooms}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {thisOffer.maxAdults}
+                  {offer.maxAdults}
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{thisOffer.price}</b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {thisOffer.goods.map((good) => (
+                  {offer.goods.map((good) => (
                     <li
                       key={good}
                       className="property__inside-item"
@@ -146,22 +145,22 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
                   <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="property__avatar user__avatar" src={thisOffer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
+                    <img className="property__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {thisOffer.host.name}
+                    {offer.host.name}
                   </span>
                   <span className="property__user-status">
-                    {thisOffer.host.isPro}
+                    {offer.host.isPro}
                   </span>
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {thisOffer.description}
+                    {offer.description}
                   </p>
                 </div>
               </div>
-              <ReviewsList
+              <Reviews
                 reviews={review}
               />
             </div>
