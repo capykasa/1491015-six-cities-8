@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
@@ -22,21 +21,14 @@ const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
 function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps): JSX.Element {
 
-  const [selectedPoint, setSelectedPoint] = useState<Offer | null>(
-    null,
-  );
-
-  const onListItemHover = (listItem: Offer | null) => {
-    setSelectedPoint(listItem);
-    console.log(listItem);
-  };
-
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
   const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
+
+  const [selectedPoint] = useState<Offer | undefined | null>(offer);
 
   if (!offer) {
     return <PageNotFound />;
@@ -46,6 +38,8 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
     nearOffers = offers.filter((item) => item.id !== offer.id);
     nearOffers.slice(NEAR_CARD_COUNT);
   }
+
+  const offersForMap = nearOffers.concat(offer); // Создал для того, чтобы при большем колличестве объявлений я получал ровно 3 поблизости и текущее (четвертое) для отображения
 
   return (
     <div className="page">
@@ -168,7 +162,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
             </div>
           </div>
           <section className="property__map map">
-            <Map city={cities} points={nearOffers} selectedPoint={selectedPoint} />
+            <Map city={cities} points={offersForMap} selectedPoint={selectedPoint} />
           </section>
         </section>
         <div className="container">
@@ -177,7 +171,6 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
             <div className="near-places__list places__list">
               <NearOffersList
                 offers={nearOffers}
-                onListItemHover={onListItemHover}
               />
             </div>
           </section>

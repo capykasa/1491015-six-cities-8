@@ -4,21 +4,14 @@ import OfferCard from '../offer-card/offer-card';
 
 type NearOffersListProps = {
   offers: Offer[];
-  onListItemHover: (listItemName: Offer | null) => void;
 }
 
-function NearOffersList({ offers, onListItemHover }: NearOffersListProps): JSX.Element {
+function NearOffersList({ offers }: NearOffersListProps): JSX.Element {
 
   return (
     <div className="near-places__list places__list">
       {offers.map((item: Offer) => (
         <article key={item.id}
-          onMouseEnter={() => {
-            onListItemHover(item);
-          }}
-          onMouseLeave={() => {
-            onListItemHover(null);
-          }}
           className="near-places__card place-card"
         >
           <div className="near-places__image-wrapper place-card__image-wrapper">
