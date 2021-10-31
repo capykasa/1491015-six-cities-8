@@ -11,15 +11,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-/* export enum Cities {
-  Paris = 'Paris',
-  Cologne = 'Cologne',
-  Brussels = 'Brussels',
-  Amsterdam = 'Amsterdam',
-  Hamburg = 'Hamburg',
-  Dusseldorf = 'Dusseldorf',
-} */
-
 export const Cities = [
   'Paris',
   'Cologne',
@@ -27,6 +18,13 @@ export const Cities = [
   'Amsterdam',
   'Hamburg',
   'Dusseldorf',
+];
+
+export const Sorting = [
+  'Popular',
+  'Price: low to high',
+  'Price: high to low',
+  'Top rated first',
 ];
 
 export const URL_MARKER_DEFAULT = '../img/pin.svg';
