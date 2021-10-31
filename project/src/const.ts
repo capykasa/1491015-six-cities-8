@@ -11,14 +11,23 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum Cities {
+/* export enum Cities {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',
   Amsterdam = 'Amsterdam',
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
-}
+} */
+
+export const Cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
 
 export const URL_MARKER_DEFAULT = '../img/pin.svg';
 
