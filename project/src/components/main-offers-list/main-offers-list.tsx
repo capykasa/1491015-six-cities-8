@@ -4,7 +4,7 @@ import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  onListItemHover: (listItemName: Offer | null) => void;
+  onListItemHover: (listItemName: Offer | undefined) => void;
 }
 
 function MainOffersList({ offers, onListItemHover }: OffersListProps): JSX.Element {
@@ -17,7 +17,7 @@ function MainOffersList({ offers, onListItemHover }: OffersListProps): JSX.Eleme
             onListItemHover(item);
           }}
           onMouseLeave={() => {
-            onListItemHover(null);
+            onListItemHover(undefined);
           }}
           className="cities__place-card place-card"
         >

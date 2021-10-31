@@ -14,11 +14,11 @@ type MainScreenProps = {
 
 function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
 
-  const [selectedPoint, setSelectedPoint] = useState<Offer | null>(
-    null,
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(
+    undefined,
   );
 
-  const onListItemHover = (listItem: Offer | null) => {
+  const onListItemHover = (listItem: Offer | undefined) => {
     setSelectedPoint(listItem);
   };
 

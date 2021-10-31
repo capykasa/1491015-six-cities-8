@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
@@ -28,8 +27,6 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
   const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
 
-  const [selectedPoint] = useState<Offer | undefined | null>(offer);
-
   if (!offer) {
     return <PageNotFound />;
   }
@@ -39,7 +36,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
     nearOffers.slice(NEAR_CARD_COUNT);
   }
 
-  const offersForMap = nearOffers.concat(offer); // Создал для того, чтобы при большем колличестве объявлений я получал ровно 3 поблизости и текущее (четвертое) для отображения
+  const offersForMap = nearOffers.concat(offer);
 
   return (
     <div className="page">
@@ -162,7 +159,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
             </div>
           </div>
           <section className="property__map map">
-            <Map city={cities} points={offersForMap} selectedPoint={selectedPoint} />
+            <Map city={cities} points={offersForMap} selectedPoint={offer} />
           </section>
         </section>
         <div className="container">
