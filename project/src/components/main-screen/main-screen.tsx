@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -7,11 +6,11 @@ import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
 import SortList from '../sort-list/sort-list';
-/* import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
-import { selectCity } from '../../store/action'; */
+import { selectCity, selectSort } from '../../store/action';
 
 const url = '';
 
@@ -20,8 +19,27 @@ type MainScreenProps = {
   cities: City;
 }
 
-function MainScreen(props: MainScreenProps): JSX.Element {
-  const { offers, cities } = props;
+const mapStateToProps = ({ city, sort }: State) => ({
+  city,
+  sort,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onSelectSort(sort: string) {
+    dispatch(selectSort(sort));
+  },
+  onSelectCity(city: string) {
+    dispatch(selectCity(city));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
+
+function MainScreen(props: ConnectedComponentProps): JSX.Element {
+  const { offers, cities, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
   //const [selectedCity, setSelectedCity] = useState<string>('Paris');
@@ -69,13 +87,17 @@ function MainScreen(props: MainScreenProps): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <CitiesList />
+        <CitiesList
+          onSelectCity={onSelectCity}
+        />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in { }</b>
-              <SortList />
+              <SortList
+                onSelectSort={onSelectSort}
+              />
               <MainOffersList
                 offers={offers}
                 onOffersListHover={onOffersListHover}
@@ -93,4 +115,4 @@ function MainScreen(props: MainScreenProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export default connector(MainScreen);

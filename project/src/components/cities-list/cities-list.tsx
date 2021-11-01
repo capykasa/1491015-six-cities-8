@@ -1,27 +1,12 @@
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Dispatch } from 'redux';
 import { Cities } from '../../const';
-import { selectCity } from '../../store/action';
-import { Actions } from '../../types/action';
-import { State } from '../../types/state';
 
-const mapStateToProps = ({ city }: State) => ({
-  city,
-});
+type CitiesListProps = {
+  onSelectCity: (city: string) => void;
+}
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSelectCity(city: string) {
-    dispatch(selectCity(city));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function CitiesList({ onSelectCity }: PropsFromRedux): JSX.Element {
+function CitiesList({ onSelectCity }: CitiesListProps): JSX.Element {
   const [selectedCity, setSelectedCity] = useState<string>('Paris');
 
   return (
@@ -50,4 +35,4 @@ function CitiesList({ onSelectCity }: PropsFromRedux): JSX.Element {
   );
 }
 
-export default connector(CitiesList);
+export default CitiesList;
