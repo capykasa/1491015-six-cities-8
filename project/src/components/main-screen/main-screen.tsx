@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -6,6 +7,11 @@ import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
 import SortList from '../sort-list/sort-list';
+/* import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
+import { Actions } from '../../types/action';
+import { State } from '../../types/state';
+import { selectCity } from '../../store/action'; */
 
 const url = '';
 
@@ -14,23 +20,24 @@ type MainScreenProps = {
   cities: City;
 }
 
-function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
+function MainScreen(props: MainScreenProps): JSX.Element {
+  const { offers, cities } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
-  const [selectedCity, setSelectedCity] = useState<string>('Paris');
-  const [, setSelectedSort] = useState<string>('Popular');
+  //const [selectedCity, setSelectedCity] = useState<string>('Paris');
+  //const [, setSelectedSort] = useState<string>('Popular');
 
   const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);
   };
 
-  const onCitiesListClick = (CityList: string) => {
+  /* const onCitiesListClick = (CityList: string) => {
     setSelectedCity(CityList);
-  };
+  }; */
 
-  const onSortListClick = (SortType: string) => {
+  /* const onSortListClick = (SortType: string) => {
     setSelectedSort(SortType);
-  };
+  }; */
 
   return (
     <div className="page page--gray page--main">
@@ -62,17 +69,13 @@ function MainScreen({ offers, cities }: MainScreenProps): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <CitiesList
-          onCitiesListClick={onCitiesListClick}
-        />
+        <CitiesList />
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {selectedCity}</b>
-              <SortList
-                onSortListClick={onSortListClick}
-              />
+              <b className="places__found">{offers.length} places to stay in { }</b>
+              <SortList />
               <MainOffersList
                 offers={offers}
                 onOffersListHover={onOffersListHover}

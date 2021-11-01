@@ -1,11 +1,30 @@
 import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Sorting } from '../../const';
+import { selectSort } from '../../store/action';
+import { Actions } from '../../types/action';
+import { State } from '../../types/state';
 
-type SortListProps = {
+/* type SortListProps = {
   onSortListClick: (SortType: string) => void;
-}
+} */
 
-function SortList({ onSortListClick }: SortListProps): JSX.Element {
+const mapStateToProps = ({ sort }: State) => ({
+  sort,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  onSelectCity(sort: string) {
+    dispatch(selectSort(sort));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function SortList({ onSelectCity }: PropsFromRedux): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<string>('Popular');
 
   return (
@@ -25,7 +44,7 @@ function SortList({ onSortListClick }: SortListProps): JSX.Element {
             tabIndex={0}
             onClick={() => {
               setSelectedSort(item);
-              onSortListClick(item);
+              onSelectCity(item);
             }}
           >
             {item}
@@ -36,4 +55,4 @@ function SortList({ onSortListClick }: SortListProps): JSX.Element {
   );
 }
 
-export default SortList;
+export default connector(SortList);

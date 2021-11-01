@@ -1,13 +1,20 @@
-import { Offer } from './offers';
+//import { Offer } from './offers';
 
 export enum ActionType {
   SelectCity = 'main/selectCity',
-  SortOffers = 'main/sortOffers',
+  SelectSort = 'main/selectSort',
 }
 
 export type SelectCity = {
   type: ActionType.SelectCity;
-  payload: Offer[];
+  payload: string;
 };
 
-export type Actions = SelectCity;
+export type SelectSort = {
+  type: ActionType.SelectSort;
+  payload: string;
+};
+
+export type Actions =
+  | SelectCity
+  | SelectSort;
