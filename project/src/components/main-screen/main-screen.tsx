@@ -15,13 +15,13 @@ import { selectCity, selectSort } from '../../store/action';
 const url = '';
 
 type MainScreenProps = {
-  offers: Offer[];
   cities: City;
 }
 
-const mapStateToProps = ({ city, sort }: State) => ({
+const mapStateToProps = ({ city, sort, offers }: State) => ({
   city,
   sort,
+  offers,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -39,23 +39,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, cities, onSelectCity, onSelectSort } = props;
+  const { offers, cities, city, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
-  //const [selectedCity, setSelectedCity] = useState<string>('Paris');
-  //const [, setSelectedSort] = useState<string>('Popular');
 
   const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);
   };
-
-  /* const onCitiesListClick = (CityList: string) => {
-    setSelectedCity(CityList);
-  }; */
-
-  /* const onSortListClick = (SortType: string) => {
-    setSelectedSort(SortType);
-  }; */
 
   return (
     <div className="page page--gray page--main">
@@ -94,7 +84,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in { }</b>
+              <b className="places__found">{offers.length} places to stay in {city}</b>
               <SortList
                 onSelectSort={onSelectSort}
               />

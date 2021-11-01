@@ -1,7 +1,9 @@
 import { Offer } from './offers';
+import { Review } from './reviews';
 
 export type State = {
   city: string,
   sort: string,
-  cityOffers: Offer[]
+  offers: Offer[],
+  reviews: Review[],
 };

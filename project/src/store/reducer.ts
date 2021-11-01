@@ -2,11 +2,13 @@ import { ActionType, Actions } from '../types/action';
 import { State } from '../types/state';
 import { Cities, Sorting } from '../const';
 import { offers } from '../mocks/offers';
+import { reviews } from '../mocks/reviews';
 
 const initialState = {
   city: Cities[0],
   sort: Sorting[0],
-  cityOffers: offers,
+  offers: offers,
+  reviews: reviews,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
