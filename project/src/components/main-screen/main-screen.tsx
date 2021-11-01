@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -10,7 +11,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
-import { selectCity, selectSort } from '../../store/action';
+import { selectCity, selectOffersByCity, selectSort, sortOffers } from '../../store/action';
 
 const url = '';
 
@@ -31,6 +32,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onSelectCity(city: string) {
     dispatch(selectCity(city));
   },
+  onSortOffers(offers: Offer[]) {
+    dispatch(selectOffersByCity(offers));
+    dispatch(sortOffers(offers));
+  },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -39,7 +44,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, cities, city, onSelectCity, onSelectSort } = props;
+  const { offers, cities, city, onSelectCity, onSelectSort, onSortOffers } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
@@ -78,7 +83,9 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList
+          offers={offers}
           onSelectCity={onSelectCity}
+          onSortOffers={onSortOffers}
         />
         <div className="cities">
           <div className="cities__places-container container">
@@ -86,7 +93,9 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city}</b>
               <SortList
+                offers={offers}
                 onSelectSort={onSelectSort}
+                onSortOffers={onSortOffers}
               />
               <MainOffersList
                 offers={offers}

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Sorting } from '../../const';
+import { Offer } from '../../types/offers';
 
 type SortListProps = {
+  offers: Offer[];
   onSelectSort: (sort: string) => void;
+  onSortOffers: (offers: Offer[]) => void;
 }
 
-function SortList({ onSelectSort }: SortListProps): JSX.Element {
+function SortList({ offers, onSelectSort, onSortOffers }: SortListProps): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<string>('Popular');
 
   return (
@@ -26,6 +29,7 @@ function SortList({ onSelectSort }: SortListProps): JSX.Element {
             onClick={() => {
               setSelectedSort(item);
               onSelectSort(item);
+              onSortOffers(offers);
             }}
           >
             {item}

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Link } from 'react-router-dom';
 import { Offer } from '../../types/offers';
 import OfferCard from '../offer-card/offer-card';
