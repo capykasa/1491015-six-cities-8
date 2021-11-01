@@ -3,9 +3,10 @@ import { Sorting } from '../../const';
 
 type SortListProps = {
   onSelectSort: (sort: string) => void;
+  onSelectedSort: (sort: string) => void;
 }
 
-function SortList({ onSelectSort }: SortListProps): JSX.Element {
+function SortList({ onSelectSort, onSelectedSort }: SortListProps): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<string>('Popular');
 
   return (
@@ -18,6 +19,7 @@ function SortList({ onSelectSort }: SortListProps): JSX.Element {
           onClick={() => {
             setSelectedSort(item);
             onSelectSort(item);
+            onSelectedSort(item);
           }}
         >
           {item}
