@@ -1,4 +1,4 @@
-import { ActionType, SelectCity, SelectOffersByCity, SelectSort, SortOffers } from '../types/action';
+import { ActionType, SelectCity, SelectOffersByCity, SelectSort } from '../types/action';
 import { Offer } from '../types/offers';
 
 export const selectCity = (city: string): SelectCity => ({
@@ -13,10 +13,5 @@ export const selectSort = (sort: string): SelectSort => ({
 
 export const selectOffersByCity = (offers: Offer[]): SelectOffersByCity => ({
   type: ActionType.SelectOffersByCity,
-  payload: offers,
-});
-
-export const sortOffers = (offers: Offer[]): SortOffers => ({
-  type: ActionType.SortOffers,
   payload: offers,
 });
