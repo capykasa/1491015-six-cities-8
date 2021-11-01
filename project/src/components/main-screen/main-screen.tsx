@@ -6,7 +6,7 @@ import { City } from '../../types/cities';
 import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
-import SortList from '../sort-list/sort-list';
+import SortMenu from '../sort-menu/sort-menu';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onSelectCity(city: string) {
     dispatch(selectCity(city));
   },
-  onSelectOffersByCity(offers: Offer[]) {
-    dispatch(selectOffersByCity(offers));
+  onSelectOffersByCity() {
+    dispatch(selectOffersByCity());
   },
 });
 
@@ -82,7 +82,6 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList
-          offers={offers}
           onSelectCity={onSelectCity}
           onSelectOffersByCity={onSelectOffersByCity}
         />
@@ -91,7 +90,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city}</b>
-              <SortList
+              <SortMenu
                 onSelectSort={onSelectSort}
               />
               <MainOffersList

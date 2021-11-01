@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cities } from '../../const';
-import { Offer } from '../../types/offers';
 
 type CitiesListProps = {
-  offers: Offer[];
   onSelectCity: (city: string) => void;
-  onSelectOffersByCity: (offers: Offer[]) => void;
+  onSelectOffersByCity: () => void;
 }
 
-function CitiesList({ offers, onSelectCity, onSelectOffersByCity }: CitiesListProps): JSX.Element {
+function CitiesList({ onSelectCity, onSelectOffersByCity }: CitiesListProps): JSX.Element {
   const [selectedCity, setSelectedCity] = useState<string>('Paris');
 
   return (
@@ -25,7 +23,7 @@ function CitiesList({ offers, onSelectCity, onSelectOffersByCity }: CitiesListPr
                 onClick={() => {
                   setSelectedCity(item);
                   onSelectCity(item);
-                  onSelectOffersByCity(offers); // Мне надо её просто вызвать. Мне не надо нести сюда все предложения.
+                  onSelectOffersByCity();
                 }}
                 className={selectedCity === item ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
               >
