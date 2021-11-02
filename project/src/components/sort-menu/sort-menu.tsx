@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import SortList from '../sort-list/sort-list';
+import { Sorting } from '../../const';
 
 type SortMenuProps = {
   onSelectSort: (sort: string) => void;
@@ -9,16 +9,12 @@ function SortMenu({ onSelectSort }: SortMenuProps): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<string>('Popular');
   const [openSort, setOpenSort] = useState<boolean>(false);
 
-  const onSelectedSort = (sort: string) => { // Выглядит так, как будто это здесь лишнее. Я мог бы взять название из onSelectSort. Но как?
-    setSelectedSort(sort);
-  };
-
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span
         onClick={() => {
-          setOpenSort(true); // Не знаю как закрыть.
+          setOpenSort(true);
         }}
         className="places__sorting-type" tabIndex={0}
       >
@@ -28,10 +24,22 @@ function SortMenu({ onSelectSort }: SortMenuProps): JSX.Element {
         </svg>
       </span>
       {openSort === true ?
-        <SortList
-          onSelectSort={onSelectSort}
-          onSelectedSort={onSelectedSort}
-        />
+        <ul className="places__options places__options--custom places__options--opened">
+          {Sorting.map((item: string) => (
+            <li
+              key={item}
+              className={selectedSort === item ? 'places__option places__option--active' : 'places__option'}
+              tabIndex={0}
+              onClick={() => {
+                setSelectedSort(item);
+                onSelectSort(item);
+                setOpenSort(false);
+              }}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
         : ''}
     </form>
   );
