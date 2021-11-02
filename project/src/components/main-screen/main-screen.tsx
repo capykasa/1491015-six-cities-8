@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -11,7 +10,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
-import { selectCity, selectOffersByCity, selectSort } from '../../store/action';
+import { selectCity, selectSort } from '../../store/action';
+import { Sorting } from '../../const';
 
 const url = '';
 
@@ -19,11 +19,31 @@ type MainScreenProps = {
   cities: City;
 }
 
-const mapStateToProps = ({ city, sort, offers }: State) => ({
-  city,
-  sort,
-  offers,
-});
+const mapStateToProps = ({ city, sort, offers }: State) => {
+  const sortOffers = offers.filter((offer) => offer.city.name === city);
+
+  if (sort === Sorting.Popular) {
+    sortOffers.sort((offerA, offerB) => offerB.rating - offerA.rating); // ПОПРАВИТЬ
+  }
+
+  if (sort === Sorting.PriceToHigh) {
+    sortOffers.sort((offerA, offerB) => offerA.price - offerB.price);
+  }
+
+  if (sort === Sorting.PriceToLow) {
+    sortOffers.sort((offerA, offerB) => offerB.price - offerA.price);
+  }
+
+  if (sort === Sorting.TopRated) {
+    sortOffers.sort((offerA, offerB) => offerB.rating - offerA.rating);
+  }
+
+  return {
+    city,
+    sort,
+    offers: sortOffers,
+  };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onSelectSort(sort: string) {
@@ -31,9 +51,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   },
   onSelectCity(city: string) {
     dispatch(selectCity(city));
-  },
-  onSelectOffersByCity() {
-    dispatch(selectOffersByCity());
   },
 });
 
@@ -43,7 +60,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, cities, city, onSelectCity, onSelectSort, onSelectOffersByCity } = props;
+  const { offers, cities, city, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
@@ -83,7 +100,6 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList
           onSelectCity={onSelectCity}
-          onSelectOffersByCity={onSelectOffersByCity}
         />
         <div className="cities">
           <div className="cities__places-container container">

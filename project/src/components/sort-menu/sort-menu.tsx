@@ -25,7 +25,7 @@ function SortMenu({ onSelectSort }: SortMenuProps): JSX.Element {
       </span>
       {openSort === true ?
         <ul className="places__options places__options--custom places__options--opened">
-          {Sorting.map((item: string) => (
+          {Object.values(Sorting).map((item: string) => (
             <li
               key={item}
               className={selectedSort === item ? 'places__option places__option--active' : 'places__option'}

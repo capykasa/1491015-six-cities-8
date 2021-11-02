@@ -1,7 +1,6 @@
 export enum ActionType {
   SelectCity = 'main/selectCity',
   SelectSort = 'main/selectSort',
-  SelectOffersByCity = 'main/SelectOffersByCity',
 }
 
 export type SelectCity = {
@@ -14,11 +13,6 @@ export type SelectSort = {
   payload: string;
 };
 
-export type SelectOffersByCity = {
-  type: ActionType.SelectOffersByCity;
-};
-
 export type Actions =
   | SelectCity
-  | SelectSort
-  | SelectOffersByCity;
+  | SelectSort;

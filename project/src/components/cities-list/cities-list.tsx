@@ -4,10 +4,9 @@ import { Cities } from '../../const';
 
 type CitiesListProps = {
   onSelectCity: (city: string) => void;
-  onSelectOffersByCity: () => void;
 }
 
-function CitiesList({ onSelectCity, onSelectOffersByCity }: CitiesListProps): JSX.Element {
+function CitiesList({ onSelectCity }: CitiesListProps): JSX.Element {
   const [selectedCity, setSelectedCity] = useState<string>('Paris');
 
   return (
@@ -23,7 +22,6 @@ function CitiesList({ onSelectCity, onSelectOffersByCity }: CitiesListProps): JS
                 onClick={() => {
                   setSelectedCity(item);
                   onSelectCity(item);
-                  onSelectOffersByCity();
                 }}
                 className={selectedCity === item ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
               >
