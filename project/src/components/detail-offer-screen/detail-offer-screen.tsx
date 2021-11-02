@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
-import { Offer } from '../../types/offers';
-import { Review } from '../../types/reviews';
+import { State } from '../../types/state';
 import Logo from '../logo/logo';
 import Map from '../map/map';
 import NearOffersList from '../near-offers-list/near-offers-list';
@@ -10,16 +9,24 @@ import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 
 type DetailOfferScreenProps = {
-  offers: Offer[];
-  reviews: Review[];
   cities: City;
 }
 const NEAR_CARD_COUNT = 3;
 const url = '';
 
+const mapStateToProps = ({ offers, reviews }: State) => ({
+  offers,
+  reviews,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & DetailOfferScreenProps;
+
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps): JSX.Element {
+function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps): JSX.Element {
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
@@ -27,8 +34,6 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
   const offer = offers.find((item) => item.id === paramId);
   const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
-
-  const [selectedPoint] = useState<Offer | undefined | null>(offer);
 
   if (!offer) {
     return <PageNotFound />;
@@ -39,7 +44,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
     nearOffers.slice(NEAR_CARD_COUNT);
   }
 
-  const offersForMap = nearOffers.concat(offer); // Создал для того, чтобы при большем колличестве объявлений я получал ровно 3 поблизости и текущее (четвертое) для отображения
+  const offersForMap = nearOffers.concat(offer);
 
   return (
     <div className="page">
@@ -162,7 +167,7 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
             </div>
           </div>
           <section className="property__map map">
-            <Map city={cities} points={offersForMap} selectedPoint={selectedPoint} />
+            <Map city={cities} points={offersForMap} selectedPoint={offer} />
           </section>
         </section>
         <div className="container">
@@ -180,4 +185,4 @@ function DetailOfferScreen({ offers, reviews, cities }: DetailOfferScreenProps):
   );
 }
 
-export default DetailOfferScreen;
+export default connector(DetailOfferScreen);

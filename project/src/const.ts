@@ -2,7 +2,7 @@ export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Room = '/offer/:id'
+  Room = '/offer/:id',
 }
 
 export enum AuthorizationStatus {
@@ -10,6 +10,22 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const Cities = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export const Sorting = {
+  Popular: 'Popular',
+  PriceToHigh: 'Price: low to high',
+  PriceToLow: 'Price: high to low',
+  TopRated: 'Top rated first',
+};
 
 export const URL_MARKER_DEFAULT = '../img/pin.svg';
 

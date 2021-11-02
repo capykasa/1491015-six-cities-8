@@ -1,14 +1,19 @@
 import Logo from '../logo/logo';
-import { Offer } from '../../types/offers';
 import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
 
 const url = '';
 
-type OffersListProps = {
-  offers: Offer[];
-}
+const mapStateToProps = ({ offers }: State) => ({
+  offers,
+});
 
-function FavoritesScreen({ offers }: OffersListProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
 
   return (
     <div className="page">
@@ -52,4 +57,4 @@ function FavoritesScreen({ offers }: OffersListProps): JSX.Element {
   );
 }
 
-export default FavoritesScreen;
+export default connector(FavoritesScreen);

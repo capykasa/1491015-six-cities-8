@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: City;
   points: Offer[];
-  selectedPoint: Offer | undefined | null;
+  selectedPoint: Offer | undefined;
 };
 
 const defaultCustomIcon = new Icon({
