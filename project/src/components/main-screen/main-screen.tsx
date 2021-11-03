@@ -11,7 +11,7 @@ import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
-import { Sorting } from '../../const';
+import { getSortedOffers } from '../../utils';
 
 const url = '';
 
@@ -22,26 +22,10 @@ type MainScreenProps = {
 const mapStateToProps = ({ city, sort, offers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
 
-  if (sort === Sorting.Popular) {
-    sortOffers.sort((offerA, offerB) => offerB.rating - offerA.rating); // ПОПРАВИТЬ
-  }
-
-  if (sort === Sorting.PriceToHigh) {
-    sortOffers.sort((offerA, offerB) => offerA.price - offerB.price);
-  }
-
-  if (sort === Sorting.PriceToLow) {
-    sortOffers.sort((offerA, offerB) => offerB.price - offerA.price);
-  }
-
-  if (sort === Sorting.TopRated) {
-    sortOffers.sort((offerA, offerB) => offerB.rating - offerA.rating);
-  }
-
   return {
     city,
     sort,
-    offers: sortOffers,
+    offers: getSortedOffers(sortOffers, sort),
   };
 };
 
