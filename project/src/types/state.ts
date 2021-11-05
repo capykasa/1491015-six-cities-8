@@ -1,3 +1,4 @@
+import { AuthorizationStatus } from '../const';
 import { Offer } from './offers';
 import { Review } from './reviews';
 
@@ -6,4 +7,5 @@ export type State = {
   sort: string,
   offers: Offer[],
   reviews: Review[],
+  authorizationStatus: AuthorizationStatus,
 };
