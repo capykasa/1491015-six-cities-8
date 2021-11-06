@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -46,8 +45,6 @@ type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
   const { offers, cities, city, onSelectCity, onSelectSort } = props;
-
-  console.log(offers); // Не понимаю почему они отрисовываются на карте, если массив пуст!
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 

@@ -12,7 +12,7 @@ export const selectSort = (sort: string) => ({
   payload: sort,
 } as const);
 
-export const loadOffers = (offers: Offer) => ({
+export const loadOffers = (offers: Offer[]) => ({
   type: ActionType.LoadOffers,
   payload: offers,
 } as const);

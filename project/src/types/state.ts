@@ -8,4 +8,5 @@ export type State = {
   offers: Offer[],
   reviews: Review[],
   authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
 };

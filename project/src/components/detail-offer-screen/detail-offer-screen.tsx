@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
@@ -39,9 +40,9 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
     return <PageNotFound />;
   }
 
-  if (offers.length > NEAR_CARD_COUNT) {
+  if (nearOffers.length > NEAR_CARD_COUNT) {
     nearOffers = offers.filter((item) => item.id !== offer.id);
-    nearOffers.slice(NEAR_CARD_COUNT);
+    nearOffers = nearOffers.slice(0, NEAR_CARD_COUNT);
   }
 
   const offersForMap = nearOffers.concat(offer);
