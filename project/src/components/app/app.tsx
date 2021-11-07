@@ -7,12 +7,32 @@ import DetailOfferScreen from '../detail-offer-screen/detail-offer-screen';
 import PageNotFound from '../page-not-found/page-not-found';
 import PrivateRoute from '../private-route/private-route';
 import { City } from '../../types/cities';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppScreenProps = {
   cities: City;
 }
 
-function App({ cities }: AppScreenProps): JSX.Element {
+const mapStateToProps = ({ isDataLoaded }: State) => ({
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
+
+function App(props: ConnectedComponentProps): JSX.Element {
+  const { cities, isDataLoaded } = props;
+
+  if (/* isCheckedAuth(authorizationStatus) ||  */!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -44,4 +64,4 @@ function App({ cities }: AppScreenProps): JSX.Element {
   );
 }
 
-export default App;
+export default connector(App);

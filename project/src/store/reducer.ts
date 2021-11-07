@@ -1,24 +1,35 @@
-/* eslint-disable no-console */
 import { ActionType, Actions } from '../types/action';
 import { State } from '../types/state';
-import { Cities, Sorting } from '../const';
-import { offers } from '../mocks/offers';
-import { reviews } from '../mocks/reviews';
+import { AuthorizationStatus, Cities, Sorting } from '../const';
 
 const initialState = {
   city: Cities[0],
   sort: Sorting.Popular,
-  offers: offers.filter((offer) => offer.city.name === 'Paris'), // Выглядит по-дурацки
-  reviews,
+  offers: [],
+  reviews: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  isDataLoaded: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.SelectCity:
-      return { ...state, city: action.payload, offers: offers };
+      return { ...state, city: action.payload };
     case ActionType.SelectSort: {
       return { ...state, sort: action.payload };
     }
+    case ActionType.LoadOffers: {
+      const offers = action.payload;
+      return { ...state, offers };
+    }
+    case ActionType.LoadReviews: {
+      const reviews = action.payload;
+      return { ...state, reviews };
+    }
+    case ActionType.RequireAuthorization:
+      return { ...state, authorizationStatus: action.payload, isDataLoaded: true };
+    case ActionType.RequireLogout:
+      return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
     default:
       return state;
   }

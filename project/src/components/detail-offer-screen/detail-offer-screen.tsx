@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { City } from '../../types/cities';
@@ -32,16 +33,15 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
-  const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
 
   if (!offer) {
     return <PageNotFound />;
   }
 
-  if (offers.length > NEAR_CARD_COUNT) {
+  if (nearOffers.length > NEAR_CARD_COUNT) {
     nearOffers = offers.filter((item) => item.id !== offer.id);
-    nearOffers.slice(NEAR_CARD_COUNT);
+    nearOffers = nearOffers.slice(0, NEAR_CARD_COUNT);
   }
 
   const offersForMap = nearOffers.concat(offer);
@@ -162,7 +162,7 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
                 </div>
               </div>
               <Reviews
-                reviews={review}
+                reviews={reviews}
               />
             </div>
           </div>
