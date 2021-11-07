@@ -33,7 +33,6 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
-  const review = reviews.filter((currentReview) => currentReview.id === paramId);
   let nearOffers = offers.slice();
 
   if (!offer) {
@@ -163,7 +162,7 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
                 </div>
               </div>
               <Reviews
-                reviews={review}
+                reviews={reviews}
               />
             </div>
           </div>

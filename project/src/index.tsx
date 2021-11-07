@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,14 +11,14 @@ import { reducer } from './store/reducer';
 import { AuthorizationStatus } from './const';
 import { createAPI } from './services/api';
 import { requireAuthorization } from './store/action';
-import { checkAuthAction, fetchOfferAction } from './store/api-actions';
+import { checkAuthAction, fetchOfferAction, fetchReviewAction } from './store/api-actions';
 import { ThunkAppDispatch } from './types/action';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
 );
 
-const store = createStore(
+export const store = createStore(
   reducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
@@ -26,6 +27,7 @@ const store = createStore(
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchOfferAction());
+(store.dispatch as ThunkAppDispatch)(fetchReviewAction('12')); // Не знаю где и как вызвать
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,14 +1,28 @@
 import { ThunkActionResult } from '../types/action';
-import { loadOffers, requireAuthorization, requireLogout } from './action';
+import { loadOffers, loadReviews, requireAuthorization, requireLogout } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offers';
 import { AuthData } from '../types/auth-data';
+import { Review } from '../types/reviews';
+import { adaptOfferToClient, adaptReviewToClient } from '../utils';
 
 export const fetchOfferAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
-    dispatch(loadOffers(data));
+
+    const adaptedDate = data.map((item) => (adaptOfferToClient(item)));
+
+    dispatch(loadOffers(adaptedDate));
+  };
+
+export const fetchReviewAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get<Review[]>(`${APIRoute.Reviews}/${id}`);
+
+    const adaptedDate = data.map((item) => (adaptReviewToClient(item)));
+
+    dispatch(loadReviews(adaptedDate));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>
