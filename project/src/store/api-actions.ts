@@ -1,7 +1,7 @@
 import { ThunkActionResult } from '../types/action';
-import { loadOffers, loadReviews, requireAuthorization, requireLogout } from './action';
+import { loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offers';
 import { AuthData } from '../types/auth-data';
 import { Review } from '../types/reviews';
@@ -38,6 +38,7 @@ export const loginAction = ({ login: email, password }: AuthData): ThunkActionRe
     const { data: { token } } = await api.post<{ token: Token }>(APIRoute.Login, { email, password });
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   };
 
 

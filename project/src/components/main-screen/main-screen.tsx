@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
@@ -42,7 +41,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function MainScreen(props: PropsFromRedux): JSX.Element {
   const { offers, city, onSelectCity, onSelectSort } = props;
 
-  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined); // Иногда подсвечивается несколько маркеров
 
   const cityOnMap = offers.length ? offers[0].city.location : cities;
 
@@ -108,4 +107,5 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
+export { MainScreen };
 export default connector(MainScreen);

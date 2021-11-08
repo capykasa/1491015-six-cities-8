@@ -57,4 +57,5 @@ function FavoritesScreen({ offers }: PropsFromRedux): JSX.Element {
   );
 }
 
+export { FavoritesScreen };
 export default connector(FavoritesScreen);

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -194,4 +193,5 @@ function DetailOfferScreen({ offers, reviews, loadReviews }: PropsFromRedux): JS
   );
 }
 
+export { DetailOfferScreen };
 export default connector(DetailOfferScreen);

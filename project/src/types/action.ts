@@ -13,7 +13,8 @@ import {
   selectCity,
   selectSort,
   requireAuthorization,
-  requireLogout
+  requireLogout,
+  redirectToRoute
 } from '../store/action';
 
 
@@ -24,6 +25,7 @@ export enum ActionType {
   LoadReviews = 'data/loadReviews',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
+  RedirectToRoute = 'game/redirectToRoute'
 }
 
 export type Actions =
@@ -32,7 +34,8 @@ export type Actions =
   | ReturnType<typeof loadOffers>
   | ReturnType<typeof loadReviews>
   | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>;
+  | ReturnType<typeof requireLogout>
+  | ReturnType<typeof redirectToRoute>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 
