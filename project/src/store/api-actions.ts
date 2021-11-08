@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import { ThunkActionResult } from '../types/action';
-import { loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
+import { addingUsername, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offers';
@@ -29,7 +30,9 @@ export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
       .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.NoAuth)); // Не очень понимаю это
+        // Тут бы как-то проверить имя пользователя
+        // А ещё при ошибке 401 он все равно ставит Auth
+        dispatch(requireAuthorization(AuthorizationStatus.Auth));
       });
   };
 
@@ -38,6 +41,7 @@ export const loginAction = ({ login: email, password }: AuthData): ThunkActionRe
     const { data: { token } } = await api.post<{ token: Token }>(APIRoute.Login, { email, password });
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(addingUsername(email));
     dispatch(redirectToRoute(AppRoute.Main));
   };
 

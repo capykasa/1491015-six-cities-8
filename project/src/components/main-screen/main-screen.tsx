@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import HeaderUser from '../header-user/header-user';
 import MainOffersList from '../main-offers-list/main-offers-list';
@@ -40,7 +41,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function MainScreen(props: PropsFromRedux): JSX.Element {
   const { offers, city, onSelectCity, onSelectSort } = props;
 
-  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined); // Иногда подсвечивается несколько маркеров
+  const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
   const cityOnMap = offers.length ? offers[0].city.location : cities;
 

@@ -9,4 +9,5 @@ export type State = {
   reviews: Review[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  username: string | undefined,
 };

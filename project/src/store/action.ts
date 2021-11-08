@@ -32,6 +32,11 @@ export const requireLogout = () => ({
   type: ActionType.RequireLogout,
 } as const);
 
+export const addingUsername = (name: string) => ({
+  type: ActionType.AddingUsername,
+  payload: name,
+} as const);
+
 export const redirectToRoute = (url: AppRoute) => ({
   type: ActionType.RedirectToRoute,
   payload: url,

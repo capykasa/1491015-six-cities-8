@@ -9,6 +9,7 @@ const initialState = {
   reviews: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  username: undefined,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -30,6 +31,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return { ...state, authorizationStatus: action.payload, isDataLoaded: true };
     case ActionType.RequireLogout:
       return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
+    case ActionType.AddingUsername:
+      return { ...state, username: action.payload };
     default:
       return state;
   }
