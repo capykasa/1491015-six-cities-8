@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
+import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { City } from '../../types/cities';
+import { Dispatch } from 'redux';
+import { fetchReviewAction } from '../../store/api-actions';
+import { Actions, ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import Logo from '../logo/logo';
 import Map from '../map/map';
@@ -9,9 +12,6 @@ import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 
-type DetailOfferScreenProps = {
-  cities: City;
-}
 const NEAR_CARD_COUNT = 3;
 const url = '';
 
@@ -20,20 +20,29 @@ const mapStateToProps = ({ offers, reviews }: State) => ({
   reviews,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  loadReviews(id: string) {
+    (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & DetailOfferScreenProps;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps): JSX.Element {
+function DetailOfferScreen({ offers, reviews, loadReviews }: PropsFromRedux): JSX.Element {
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
   let nearOffers = offers.slice();
+
+  useEffect(() => {
+    loadReviews(paramId.toString());
+  }, [paramId, loadReviews]);
 
   if (!offer) {
     return <PageNotFound />;
@@ -167,7 +176,7 @@ function DetailOfferScreen({ offers, reviews, cities }: ConnectedComponentProps)
             </div>
           </div>
           <section className="property__map map">
-            <Map city={cities} points={offersForMap} selectedPoint={offer} />
+            <Map city={offer.city.location} points={offersForMap} selectedPoint={offer} />
           </section>
         </section>
         <div className="container">

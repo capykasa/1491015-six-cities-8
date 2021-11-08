@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
-import { City } from '../../types/cities';
 import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
@@ -12,12 +12,9 @@ import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
+import { cities } from '../../mocks/cities';
 
 const url = '';
-
-type MainScreenProps = {
-  cities: City;
-}
 
 const mapStateToProps = ({ city, sort, offers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
@@ -41,12 +38,13 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
-function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, cities, city, onSelectCity, onSelectSort } = props;
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const { offers, city, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+
+  const cityOnMap = offers.length ? offers[0].city.location : cities;
 
   const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);
@@ -100,7 +98,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={cities} points={offers} selectedPoint={selectedPoint} />
+                <Map city={cityOnMap} points={offers} selectedPoint={selectedPoint} />
               </section>
             </div>
           </div>
