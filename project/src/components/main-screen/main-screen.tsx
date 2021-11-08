@@ -1,4 +1,5 @@
 import Logo from '../logo/logo';
+import HeaderUser from '../header-user/header-user';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
 import Map from '../map/map';
@@ -12,8 +13,6 @@ import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
-
-const url = '';
 
 const mapStateToProps = ({ city, sort, offers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
@@ -57,22 +56,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href={url}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href={url}>
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderUser />
           </div>
         </div>
       </header>
