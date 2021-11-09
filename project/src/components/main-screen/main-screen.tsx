@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import Logo from '../logo/logo';
+import HeaderUser from '../header-user/header-user';
 import MainOffersList from '../main-offers-list/main-offers-list';
 import { Offer } from '../../types/offers';
-import { City } from '../../types/cities';
 import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
@@ -12,12 +13,7 @@ import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
-
-const url = '';
-
-type MainScreenProps = {
-  cities: City;
-}
+import { cities } from '../../mocks/cities';
 
 const mapStateToProps = ({ city, sort, offers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
@@ -41,12 +37,13 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
-function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const { offers, cities, city, onSelectCity, onSelectSort } = props;
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const { offers, city, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
+
+  const cityOnMap = offers.length ? offers[0].city.location : cities;
 
   const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);
@@ -60,22 +57,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href={url}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href={url}>
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            <HeaderUser />
           </div>
         </div>
       </header>
@@ -100,7 +82,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={cities} points={offers} selectedPoint={selectedPoint} />
+                <Map city={cityOnMap} points={offers} selectedPoint={selectedPoint} />
               </section>
             </div>
           </div>
@@ -110,4 +92,5 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
+export { MainScreen };
 export default connector(MainScreen);
