@@ -40,7 +40,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return { ...state, authorizationStatus: action.payload, isDataLoaded: true };
     case ActionType.RequireLogout:
       return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
-    case ActionType.AddingUsername:
+    case ActionType.SetUsername:
       return { ...state, username: action.payload };
     default:
       return state;

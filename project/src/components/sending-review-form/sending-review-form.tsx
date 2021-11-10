@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { loadNewReview } from '../../store/action';
+//import { sendComment } from '../../store/api-actions';
 import { ThunkAppDispatch } from '../../types/action';
 import { Review } from '../../types/reviews';
 import { State } from '../../types/state';
@@ -13,7 +14,8 @@ const mapStateToProps = ({ reviews, username }: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(review: Review) {
+  onSubmit(review: Review, id: string) {
+    //(dispatch as ThunkAppDispatch)(sendComment(id));
     dispatch(loadNewReview(review));
   },
 });
@@ -33,7 +35,7 @@ function SendingReviewForm(props: PropsFromRedux): JSX.Element {
 
     if (commentRef.current !== null) {
       onSubmit({
-        id: reviews.length,
+        id: reviews.length + 1,
         user: {
           id: 1, // изменить
           isPro: true, // Понятия не имею
@@ -42,8 +44,8 @@ function SendingReviewForm(props: PropsFromRedux): JSX.Element {
         },
         rating: rating,
         comment: commentRef.current.value,
-        date: new Date().toString(),
-      });
+        date: new Date().toString(), // Не тот формат
+      }, (reviews.length + 1).toString());
     }
   };
 

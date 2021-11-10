@@ -11,7 +11,7 @@ const mapStateToProps = ({ authorizationStatus, username }: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  logoutProfile() {
+  onLogoutAction() {
     dispatch(logoutAction());
   },
 });
@@ -21,7 +21,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function HeaderUser(props: PropsFromRedux): JSX.Element {
-  const { authorizationStatus, username, logoutProfile } = props;
+  const { authorizationStatus, username, onLogoutAction } = props;
 
   return (
     <nav className="header__nav">
@@ -41,7 +41,7 @@ function HeaderUser(props: PropsFromRedux): JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
 
-                logoutProfile();
+                onLogoutAction();
               }}
               to='/'
             >

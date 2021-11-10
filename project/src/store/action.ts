@@ -42,8 +42,8 @@ export const requireLogout = () => ({
   type: ActionType.RequireLogout,
 } as const);
 
-export const addingUsername = (name: string) => ({
-  type: ActionType.AddingUsername,
+export const setUsername = (name: string) => ({
+  type: ActionType.SetUsername,
   payload: name,
 } as const);
 

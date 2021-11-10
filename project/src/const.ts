@@ -27,14 +27,6 @@ export const Sorting = {
   TopRated: 'Top rated first',
 };
 
-export const ratingNumberToStar = {
-  1: '20%',
-  2: '40%',
-  3: '60%',
-  4: '80%',
-  5: '100%',
-};
-
 export enum APIRoute {
   Offers = '/hotels',
   Reviews = '/comments',

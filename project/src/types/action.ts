@@ -16,7 +16,7 @@ import {
   selectSort,
   requireAuthorization,
   requireLogout,
-  addingUsername,
+  setUsername,
   redirectToRoute
 } from '../store/action';
 
@@ -30,7 +30,7 @@ export enum ActionType {
   LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
-  AddingUsername = 'user/addingUsername',
+  SetUsername = 'user/setUsername',
   RedirectToRoute = 'main/redirectToRoute'
 }
 
@@ -43,7 +43,7 @@ export type Actions =
   | ReturnType<typeof loadNearbyOffers>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
-  | ReturnType<typeof addingUsername>
+  | ReturnType<typeof setUsername>
   | ReturnType<typeof redirectToRoute>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
