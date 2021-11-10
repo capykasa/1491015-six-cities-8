@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { ThunkActionResult } from '../types/action';
-import { addingUsername, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
+import { addingUsername, loadNearbyOffers, loadNewReview, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offers';
@@ -26,6 +26,15 @@ export const fetchReviewAction = (id: string): ThunkActionResult =>
     dispatch(loadReviews(adaptedDate));
   };
 
+export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
+
+    const adaptedDate = data.map((item) => (adaptOfferToClient(item)));
+
+    dispatch(loadNearbyOffers(adaptedDate));
+  };
+
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
@@ -43,6 +52,16 @@ export const loginAction = ({ login: email, password }: AuthData): ThunkActionRe
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(addingUsername(email));
     dispatch(redirectToRoute(AppRoute.Main));
+  };
+
+export const sendComment = (id: string): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const { data } = await api.post<Review>(`${APIRoute.Reviews}/${id}`);
+
+    // Надо создать адаптер и отправить на сервер
+    // После возможно загрузить заного с новым комментарием вызвав loadReviews
+
+    dispatch(loadNewReview(data));
   };
 
 

@@ -15,13 +15,15 @@ import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
 
-const mapStateToProps = ({ city, sort, offers }: State) => {
+const mapStateToProps = ({ city, sort, offers, reviews, nearbyOffers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
 
   return {
     city,
     sort,
     offers: getSortedOffers(sortOffers, sort),
+    reviews: [],
+    nearbyOffers: [],
   };
 };
 
@@ -39,7 +41,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function MainScreen(props: PropsFromRedux): JSX.Element {
-  const { offers, city, onSelectCity, onSelectSort } = props;
+  const { city, offers, onSelectCity, onSelectSort } = props;
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
@@ -65,6 +67,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList
+          city={city}
           onSelectCity={onSelectCity}
         />
         <div className="cities">

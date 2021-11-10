@@ -1,28 +1,63 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
-import { ReviewComment, ReviewRating } from '../../types/reviews';
-
-type SendingReviewFormProps = {
-  submitForm: (comment: ReviewComment, rating: ReviewRating) => void;
-}
+import { ChangeEvent, FormEvent, useRef } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { loadNewReview } from '../../store/action';
+import { ThunkAppDispatch } from '../../types/action';
+import { Review } from '../../types/reviews';
+import { State } from '../../types/state';
 
 const STARS = [5, 4, 3, 2, 1];
 
-function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element {
-  const [userComment, setUserComment] = useState({ comment: '' });
-  const [userRating, setUserRating] = useState({ rating: 0 });
+const mapStateToProps = ({ reviews, username }: State) => ({
+  reviews,
+  username,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSubmit(review: Review) {
+    dispatch(loadNewReview(review));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function SendingReviewForm(props: PropsFromRedux): JSX.Element {
+  const { reviews, username, onSubmit } = props;
+
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
+  let rating: number;                                             // Тут нужен тоже useRef?
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (commentRef.current !== null) {
+      onSubmit({
+        id: reviews.length,
+        user: {
+          id: 1, // изменить
+          isPro: true, // Понятия не имею
+          name: username,
+          avatarUrl: 'img/avatar.svg',
+        },
+        rating: rating,
+        comment: commentRef.current.value,
+        date: new Date().toString(),
+      });
+    }
+  };
 
   return (
     <form
-      onSubmit={(evt: FormEvent<HTMLFormElement>) => {
-        evt.preventDefault();
-        submitForm(userComment, userRating);
-      }}
-      className="reviews__form form" action="#" method="post"
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-          setUserRating({ rating: Number(target.value) });
+          rating = Number(target.value);
         }}
         className="reviews__rating-form form__rating"
       >
@@ -42,20 +77,26 @@ function SendingReviewForm({ submitForm }: SendingReviewFormProps): JSX.Element 
         ))}
       </div>
       <textarea
-        onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-          setUserComment({ comment: target.value });
-        }}
-        className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved"
+        ref={commentRef}
+        className="reviews__textarea form__textarea"
+        id="review"
+        name="review"
+        placeholder="Tell how was your stay, what you like and what can be improved"
+        required
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+        >Submit
+        </button>
       </div>
     </form >
   );
 }
 
-export default SendingReviewForm;
+export default connector(SendingReviewForm);

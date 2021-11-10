@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cities } from '../../const';
 
 type CitiesListProps = {
+  city: string;
   onSelectCity: (city: string) => void;
 }
 
-function CitiesList({ onSelectCity }: CitiesListProps): JSX.Element {
-  const [selectedCity, setSelectedCity] = useState<string>('Paris');
+function CitiesList({ city, onSelectCity }: CitiesListProps): JSX.Element {
 
   return (
     <div className="tabs">
@@ -20,10 +19,9 @@ function CitiesList({ onSelectCity }: CitiesListProps): JSX.Element {
             >
               <Link to=''
                 onClick={() => {
-                  setSelectedCity(item);
                   onSelectCity(item);
                 }}
-                className={selectedCity === item ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
+                className={city === item ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
               >
                 <span>{item}</span>
               </Link>

@@ -7,9 +7,10 @@ const initialState = {
   sort: Sorting.Popular,
   offers: [],
   reviews: [],
+  nearbyOffers: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
-  username: undefined,
+  username: '',
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -26,6 +27,14 @@ const reducer = (state: State = initialState, action: Actions): State => {
     case ActionType.LoadReviews: {
       const reviews = action.payload;
       return { ...state, reviews };
+    }
+    case ActionType.LoadNewReview: {
+      const review = action.payload;
+      return { ...state, reviews: state.reviews.concat(review) };
+    }
+    case ActionType.LoadNearbyOffers: {
+      const nearbyOffers = action.payload;
+      return { ...state, nearbyOffers };
     }
     case ActionType.RequireAuthorization:
       return { ...state, authorizationStatus: action.payload, isDataLoaded: true };

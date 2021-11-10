@@ -10,6 +10,8 @@ import { State } from '../types/state';
 import {
   loadOffers,
   loadReviews,
+  loadNewReview,
+  loadNearbyOffers,
   selectCity,
   selectSort,
   requireAuthorization,
@@ -24,6 +26,8 @@ export enum ActionType {
   SelectSort = 'main/selectSort',
   LoadOffers = 'data/loadOffers',
   LoadReviews = 'data/loadReviews',
+  LoadNewReview = 'data/loadNewReview',
+  LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   AddingUsername = 'user/addingUsername',
@@ -35,6 +39,8 @@ export type Actions =
   | ReturnType<typeof selectSort>
   | ReturnType<typeof loadOffers>
   | ReturnType<typeof loadReviews>
+  | ReturnType<typeof loadNewReview>
+  | ReturnType<typeof loadNearbyOffers>
   | ReturnType<typeof requireAuthorization>
   | ReturnType<typeof requireLogout>
   | ReturnType<typeof addingUsername>

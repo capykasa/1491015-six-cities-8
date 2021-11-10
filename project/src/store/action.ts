@@ -18,9 +18,19 @@ export const loadOffers = (offers: Offer[]) => ({
   payload: offers,
 } as const);
 
+export const loadNearbyOffers = (offers: Offer[]) => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: offers,
+} as const);
+
 export const loadReviews = (reviews: Review[]) => ({
   type: ActionType.LoadReviews,
   payload: reviews,
+} as const);
+
+export const loadNewReview = (review: Review) => ({
+  type: ActionType.LoadNewReview,
+  payload: review,
 } as const);
 
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({

@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
-import { fetchReviewAction } from '../../store/api-actions';
+import { AuthorizationStatus } from '../../const';
+import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { Actions, ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import HeaderUser from '../header-user/header-user';
@@ -11,17 +13,21 @@ import Map from '../map/map';
 import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
+import SendingReviewForm from '../sending-review-form/sending-review-form';
 
-const NEAR_CARD_COUNT = 3;
-
-const mapStateToProps = ({ offers, reviews }: State) => ({
+const mapStateToProps = ({ offers, reviews, nearbyOffers, authorizationStatus }: State) => ({
   offers,
   reviews,
+  nearbyOffers,
+  authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   loadReviews(id: string) {
     (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+  },
+  loadNearbyOffers(id: string) {
+    (dispatch as ThunkAppDispatch)(fetchNearbyOffersAction(id));
   },
 });
 
@@ -31,28 +37,26 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews, loadReviews }: PropsFromRedux): JSX.Element {
+function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus, loadReviews, loadNearbyOffers }: PropsFromRedux): JSX.Element {
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
-  let nearOffers = offers.slice();
 
   useEffect(() => {
     loadReviews(paramId.toString());
   }, [paramId, loadReviews]);
 
+  useEffect(() => {
+    loadNearbyOffers(paramId.toString());
+  }, [paramId, loadNearbyOffers]);
+
   if (!offer) {
     return <PageNotFound />;
   }
 
-  if (nearOffers.length > NEAR_CARD_COUNT) {
-    nearOffers = offers.filter((item) => item.id !== offer.id);
-    nearOffers = nearOffers.slice(0, NEAR_CARD_COUNT);
-  }
-
-  const offersForMap = nearOffers.concat(offer);
+  const offersForMap = nearbyOffers.concat(offer);
 
   return (
     <div className="page">
@@ -157,6 +161,10 @@ function DetailOfferScreen({ offers, reviews, loadReviews }: PropsFromRedux): JS
               <Reviews
                 reviews={reviews}
               />
+              {authorizationStatus === AuthorizationStatus.Auth
+                ?
+                <SendingReviewForm />
+                : ''}
             </div>
           </div>
           <section className="property__map map">
@@ -168,7 +176,7 @@ function DetailOfferScreen({ offers, reviews, loadReviews }: PropsFromRedux): JS
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               <NearOffersList
-                offers={nearOffers}
+                offers={nearbyOffers}
               />
             </div>
           </section>
