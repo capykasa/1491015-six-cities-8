@@ -7,7 +7,7 @@ type OfferCardProps = {
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const { offers } = props;
-  const { id, isFavorite, price, title, type } = offers;
+  const { id, isFavorite, price, title, type, rating } = offers;
 
   return (
     <div className="place-card__info">
@@ -25,7 +25,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{ width: '80%' }}></span>
+          <span style={{ width: `${rating * 20}%` }}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>

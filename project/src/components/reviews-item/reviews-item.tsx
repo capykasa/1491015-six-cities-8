@@ -5,7 +5,6 @@ type ReviewItemProps = {
 };
 
 function ReviewItem({ review }: ReviewItemProps): JSX.Element {
-  const ratingNumberToStar = `${review.rating * 20}%`;
 
   return (
     <>
@@ -20,7 +19,7 @@ function ReviewItem({ review }: ReviewItemProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: `${ratingNumberToStar}` }}></span>
+            <span style={{ width: `${review.rating * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

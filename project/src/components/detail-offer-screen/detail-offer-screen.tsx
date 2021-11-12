@@ -106,7 +106,7 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus,
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: '80%' }}></span>
+                  <span style={{ width: `${offer.rating * 20}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{offer.rating}</span>
@@ -161,10 +161,7 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus,
               <Reviews
                 reviews={reviews}
               />
-              {authorizationStatus === AuthorizationStatus.Auth
-                ?
-                <SendingReviewForm />
-                : ''}
+              {authorizationStatus === AuthorizationStatus.Auth && <SendingReviewForm />}
             </div>
           </div>
           <section className="property__map map">

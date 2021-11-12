@@ -77,3 +77,18 @@ export const adaptReviewToClient = (item: any): Review => (
     },
   )
 );
+
+/* export const adaptReviewToServer = (item: any): Review => (
+  Object.assign(
+    {},
+    item,
+    {
+      user: {
+        id: item.user['id'],
+        is_pro: item.user['isPro'],
+        name: item.user['name'],
+        avatar_url: item.user['avatarUrl'],
+      },
+    },
+  )
+); */

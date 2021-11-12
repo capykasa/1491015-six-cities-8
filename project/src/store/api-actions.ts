@@ -59,6 +59,7 @@ export const sendComment = (id: string): ThunkActionResult =>
 
     // Надо создать адаптер и отправить на сервер
     // После возможно загрузить заного с новым комментарием вызвав loadReviews
+    //const adaptedDate = adaptReviewToServer(data);
 
     dispatch(loadNewReview(data));
   };

@@ -15,15 +15,13 @@ import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
 
-const mapStateToProps = ({ city, sort, offers, reviews, nearbyOffers }: State) => {
+const mapStateToProps = ({ city, sort, offers }: State) => {
   const sortOffers = offers.filter((offer) => offer.city.name === city);
 
   return {
     city,
     sort,
     offers: getSortedOffers(sortOffers, sort),
-    reviews: [],
-    nearbyOffers: [],
   };
 };
 
