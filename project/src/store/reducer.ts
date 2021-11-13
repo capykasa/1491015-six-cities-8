@@ -28,10 +28,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const reviews = action.payload;
       return { ...state, reviews };
     }
-    case ActionType.LoadNewReview: {
-      const review = action.payload;
-      return { ...state, reviews: state.reviews.concat(review) };
-    }
     case ActionType.LoadNearbyOffers: {
       const nearbyOffers = action.payload;
       return { ...state, nearbyOffers };

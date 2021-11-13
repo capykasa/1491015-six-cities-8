@@ -6,16 +6,10 @@ import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import App from './components/app/app';
 import { reducer } from './store/reducer';
-import { AuthorizationStatus } from './const';
-import { createAPI } from './services/api';
-import { requireAuthorization } from './store/action';
 import { checkAuthAction, fetchOfferAction } from './store/api-actions';
 import { ThunkAppDispatch } from './types/action';
 import { redirect } from './store/middlewares/redirect';
-
-const api = createAPI(
-  () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
-);
+import { api } from './services/api';
 
 export const store = createStore(
   reducer,

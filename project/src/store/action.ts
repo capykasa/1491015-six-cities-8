@@ -28,11 +28,6 @@ export const loadReviews = (reviews: Review[]) => ({
   payload: reviews,
 } as const);
 
-export const loadNewReview = (review: Review) => ({
-  type: ActionType.LoadNewReview,
-  payload: review,
-} as const);
-
 export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
   type: ActionType.RequireAuthorization,
   payload: authStatus,

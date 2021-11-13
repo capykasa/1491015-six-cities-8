@@ -1,13 +1,19 @@
 import React from 'react';
 import { ChangeEvent, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { loadNewReview } from '../../store/action';
-//import { sendComment } from '../../store/api-actions';
+import { APIRoute } from '../../const';
+import { api } from '../../services/api';
+import { fetchReviewAction } from '../../store/api-actions';
 import { ThunkAppDispatch } from '../../types/action';
 import { Review } from '../../types/reviews';
 import { State } from '../../types/state';
+import { adaptReviewToServer } from '../../utils';
 
 const STARS = [5, 4, 3, 2, 1];
+
+type SendingReviewFormProps = {
+  id: string;
+}
 
 const mapStateToProps = ({ reviews, username }: State) => ({
   reviews,
@@ -16,17 +22,19 @@ const mapStateToProps = ({ reviews, username }: State) => ({
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(review: Review, id: string) {
-    //(dispatch as ThunkAppDispatch)(sendComment(id));
-    dispatch(loadNewReview(review));
+    const adaptReview = adaptReviewToServer(review);
+    api.post<Review>(`${APIRoute.Reviews}/${id}`, adaptReview);
+    (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
   },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & SendingReviewFormProps;
 
-function SendingReviewForm(props: PropsFromRedux): JSX.Element {
-  const { reviews, username, onSubmit } = props;
+function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
+  const { id, reviews, username, onSubmit } = props;
 
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   let rating: number;                                             // Тут нужен тоже useRef?
@@ -46,7 +54,7 @@ function SendingReviewForm(props: PropsFromRedux): JSX.Element {
         rating: rating,
         comment: commentRef.current.value,
         date: new Date().toString(), // Не тот формат
-      }, (reviews.length + 1).toString());
+      }, id);
     }
   };
 

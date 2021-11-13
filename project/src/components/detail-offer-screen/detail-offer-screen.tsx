@@ -18,7 +18,7 @@ import SendingReviewForm from '../sending-review-form/sending-review-form';
 const mapStateToProps = ({ offers, reviews, nearbyOffers, authorizationStatus }: State) => ({
   offers,
   reviews,
-  nearbyOffers,
+  nearbyOffers, // ПРОВЕРКУ, ЧТОБЫ НЕ ГРУЗИТЬ, ЕСЛИ id ФИЛЬМА ТОТ ЖЕ
   authorizationStatus,
 });
 
@@ -161,7 +161,7 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus,
               <Reviews
                 reviews={reviews}
               />
-              {authorizationStatus === AuthorizationStatus.Auth && <SendingReviewForm />}
+              {authorizationStatus === AuthorizationStatus.Auth && <SendingReviewForm id={params.id} />}
             </div>
           </div>
           <section className="property__map map">
