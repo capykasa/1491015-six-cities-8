@@ -5,9 +5,7 @@ import { APIRoute } from '../../const';
 import { api } from '../../services/api';
 import { fetchReviewAction } from '../../store/api-actions';
 import { ThunkAppDispatch } from '../../types/action';
-import { Review } from '../../types/reviews';
-import { State } from '../../types/state';
-import { adaptReviewToServer } from '../../utils';
+import { Review, ReviewPost } from '../../types/reviews';
 
 const STARS = [5, 4, 3, 2, 1];
 
@@ -15,26 +13,27 @@ type SendingReviewFormProps = {
   id: string;
 }
 
-const mapStateToProps = ({ reviews, username }: State) => ({
-  reviews,
-  username,
-});
-
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(review: Review, id: string) {
-    const adaptReview = adaptReviewToServer(review);
-    api.post<Review>(`${APIRoute.Reviews}/${id}`, adaptReview);
-    (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+  onSubmit(review: ReviewPost, id: string) {
+    api.post<Review>(`${APIRoute.Reviews}/${id}`, review)
+      .then(() => {
+        (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+      })
+      .then(() => {
+        // Надо как-то очистить форму
+      })
+      // eslint-disable-next-line no-console
+      .catch(() => console.log('error'));
   },
 });
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & SendingReviewFormProps;
 
 function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { id, reviews, username, onSubmit } = props;
+  const { id, onSubmit } = props;
 
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   let rating: number;                                             // Тут нужен тоже useRef?
@@ -43,18 +42,12 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
     evt.preventDefault();
 
     if (commentRef.current !== null) {
-      onSubmit({
-        id: reviews.length + 1,
-        user: {
-          id: 1, // изменить
-          isPro: true, // Понятия не имею
-          name: username,
-          avatarUrl: 'img/avatar.svg',
+      onSubmit(
+        {
+          rating: rating,
+          comment: commentRef.current.value,
         },
-        rating: rating,
-        comment: commentRef.current.value,
-        date: new Date().toString(), // Не тот формат
-      }, id);
+        id);
     }
   };
 

@@ -77,18 +77,3 @@ export const adaptReviewToClient = (item: any): Review => (
     },
   )
 );
-
-export const adaptReviewToServer = (item: Review): any => (
-  {
-    'id': item['id'],
-    'rating': item['rating'],
-    'comment': item['comment'],
-    'date': item['date'],
-    user: {
-      'id': item.user['id'],
-      'is_pro': item.user['isPro'],
-      'name': item.user['name'],
-      'avatar_url': item.user['avatarUrl'],
-    },
-  }
-);

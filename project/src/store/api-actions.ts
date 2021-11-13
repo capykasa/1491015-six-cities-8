@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ThunkActionResult } from '../types/action';
 import { setUsername, loadNearbyOffers, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
@@ -52,19 +51,6 @@ export const loginAction = ({ login: email, password }: AuthData): ThunkActionRe
     dispatch(setUsername(email));
     dispatch(redirectToRoute(AppRoute.Main));
   };
-
-/* export const sendComment = (id: string): ThunkActionResult =>
-  async (dispatch, _getState, api) => {
-    const { data } = await api.post<Review>(`${APIRoute.Reviews}/${id}`);
-
-    // Надо создать адаптер и отправить на сервер
-    // После возможно загрузить заного с новым комментарием вызвав loadReviews
-    const adaptedDate = adaptReviewToServer(data);
-    console.log(adaptedDate);
-
-    dispatch(loadReviews(adaptedDate));
-  }; */
-
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
