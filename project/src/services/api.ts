@@ -1,4 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { store } from '..';
+import { AuthorizationStatus } from '../const';
+import { requireAuthorization } from '../store/action';
 import { getToken } from './token';
 
 const BACKEND_URL = 'https://8.react.pages.academy/six-cities';
@@ -23,7 +26,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
       const { response } = error;
 
       if (response?.status === HttpCode.Unauthorized) {
-        return onUnauthorized();
+        onUnauthorized();
       }
 
       return Promise.reject(error);
@@ -44,3 +47,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
 
   return api;
 };
+
+export const api = createAPI(
+  () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
+);

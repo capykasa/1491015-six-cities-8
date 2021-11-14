@@ -7,7 +7,8 @@ export type State = {
   sort: string,
   offers: Offer[],
   reviews: Review[],
+  nearbyOffers: Offer[],
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
-  username: string | undefined,
+  username: string,
 };

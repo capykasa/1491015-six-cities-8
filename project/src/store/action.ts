@@ -18,6 +18,11 @@ export const loadOffers = (offers: Offer[]) => ({
   payload: offers,
 } as const);
 
+export const loadNearbyOffers = (offers: Offer[]) => ({
+  type: ActionType.LoadNearbyOffers,
+  payload: offers,
+} as const);
+
 export const loadReviews = (reviews: Review[]) => ({
   type: ActionType.LoadReviews,
   payload: reviews,
@@ -32,8 +37,8 @@ export const requireLogout = () => ({
   type: ActionType.RequireLogout,
 } as const);
 
-export const addingUsername = (name: string) => ({
-  type: ActionType.AddingUsername,
+export const setUsername = (name: string) => ({
+  type: ActionType.SetUsername,
   payload: name,
 } as const);
 
