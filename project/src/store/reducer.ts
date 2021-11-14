@@ -8,6 +8,7 @@ const initialState = {
   offers: [],
   reviews: [],
   nearbyOffers: [],
+  nearbyOffersForId: null,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   username: '',
@@ -29,8 +30,9 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return { ...state, reviews };
     }
     case ActionType.LoadNearbyOffers: {
-      const nearbyOffers = action.payload;
-      return { ...state, nearbyOffers };
+      const nearbyOffers = action.payload.offers;
+      const nearbyOffersForId = action.payload.id;
+      return { ...state, nearbyOffers, nearbyOffersForId };
     }
     case ActionType.RequireAuthorization:
       return { ...state, authorizationStatus: action.payload, isDataLoaded: true };

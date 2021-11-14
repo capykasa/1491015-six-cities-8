@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { ChangeEvent, FormEvent, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
@@ -48,6 +49,7 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
           comment: commentRef.current.value,
         },
         id);
+      commentRef.current = null; // :c
     }
   };
 

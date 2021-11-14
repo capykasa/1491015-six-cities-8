@@ -15,10 +15,11 @@ import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
 
-const mapStateToProps = ({ offers, reviews, nearbyOffers, authorizationStatus }: State) => ({
+const mapStateToProps = ({ offers, reviews, nearbyOffers, nearbyOffersForId, authorizationStatus }: State) => ({
   offers,
   reviews,
-  nearbyOffers, // ПРОВЕРКУ, ЧТОБЫ НЕ ГРУЗИТЬ, ЕСЛИ id ФИЛЬМА ТОТ ЖЕ
+  nearbyOffers,
+  nearbyOffersForId,
   authorizationStatus,
 });
 
@@ -37,12 +38,14 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus, loadReviews, loadNearbyOffers }: PropsFromRedux): JSX.Element {
+function DetailOfferScreen({ offers, reviews, nearbyOffers, nearbyOffersForId, authorizationStatus, loadReviews, loadNearbyOffers }: PropsFromRedux): JSX.Element {
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
 
   const offer = offers.find((item) => item.id === paramId);
+
+  const isNearbyOffersLoaded = paramId === nearbyOffersForId;
 
   useEffect(() => {
     loadReviews(paramId.toString());
@@ -165,7 +168,7 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, authorizationStatus,
             </div>
           </div>
           <section className="property__map map">
-            <Map city={offer.city.location} points={offersForMap} selectedPoint={offer} />
+            {isNearbyOffersLoaded && <Map city={offer.city.location} points={offersForMap} selectedPoint={offer} />}
           </section>
         </section>
         <div className="container">

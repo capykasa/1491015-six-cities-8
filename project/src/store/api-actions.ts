@@ -31,7 +31,7 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
 
     const adaptedDate = data.map((item) => (adaptOfferToClient(item)));
 
-    dispatch(loadNearbyOffers(adaptedDate));
+    dispatch(loadNearbyOffers(adaptedDate, parseInt(id, 10)));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

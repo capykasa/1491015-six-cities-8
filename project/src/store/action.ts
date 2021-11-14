@@ -18,9 +18,9 @@ export const loadOffers = (offers: Offer[]) => ({
   payload: offers,
 } as const);
 
-export const loadNearbyOffers = (offers: Offer[]) => ({
+export const loadNearbyOffers = (offers: Offer[], id: number) => ({
   type: ActionType.LoadNearbyOffers,
-  payload: offers,
+  payload: { offers, id },
 } as const);
 
 export const loadReviews = (reviews: Review[]) => ({

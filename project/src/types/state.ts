@@ -8,6 +8,7 @@ export type State = {
   offers: Offer[],
   reviews: Review[],
   nearbyOffers: Offer[],
+  nearbyOffersForId: number | null;
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   username: string,
