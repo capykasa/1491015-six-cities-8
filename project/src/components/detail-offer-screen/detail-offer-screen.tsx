@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
+import { store } from '../..';
 import { AuthorizationStatus } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
-import { Actions, ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import HeaderUser from '../header-user/header-user';
 import Logo from '../logo/logo';
@@ -24,12 +24,12 @@ const mapStateToProps = (state: State) => ({
   authorizationStatus: getAuthorizationStatus(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   loadReviews(id: string) {
-    (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+    store.dispatch(fetchReviewAction(id));
   },
   loadNearbyOffers(id: string) {
-    (dispatch as ThunkAppDispatch)(fetchNearbyOffersAction(id));
+    store.dispatch(fetchNearbyOffersAction(id));
   },
 });
 

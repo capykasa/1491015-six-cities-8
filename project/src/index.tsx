@@ -1,26 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
 import App from './components/app/app';
 import { reducer } from './store/reducer';
 import { checkAuthAction, fetchOfferAction } from './store/api-actions';
-import { ThunkAppDispatch } from './types/action';
 import { redirect } from './store/middlewares/redirect';
 import { api } from './services/api';
 
-export const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(thunk.withExtraArgument(api)),
-    applyMiddleware(redirect),
-  ),
-);
+export const store = configureStore({
+  reducer: reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }).concat(redirect),
+});
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchOfferAction());
+store.dispatch(checkAuthAction());
+store.dispatch(fetchOfferAction());
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,6 +1,7 @@
+import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../../const';
-import { ActionType, Actions } from '../../types/action';
 import { User } from '../../types/state';
+import { requireAuthorization, requireLogout, setUsername } from '../action';
 
 const initialState: User = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -8,17 +9,18 @@ const initialState: User = {
   username: '',
 };
 
-const userReducer = (state = initialState, action: Actions): User => {
-  switch (action.type) {
-    case ActionType.RequireAuthorization:
-      return { ...state, authorizationStatus: action.payload, isDataLoaded: true };
-    case ActionType.RequireLogout:
-      return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
-    case ActionType.SetUsername:
-      return { ...state, username: action.payload };
-    default:
-      return state;
-  }
-};
+const userReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(requireLogout, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(setUsername, (state, action) => {
+      state.username = action.payload;
+    });
+});
 
 export { userReducer };

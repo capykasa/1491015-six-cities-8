@@ -1,5 +1,6 @@
-import { ActionType, Actions } from '../../types/action';
+import { createReducer } from '@reduxjs/toolkit';
 import { Data } from '../../types/state';
+import { loadNearbyOffers, loadOffers, loadReviews } from '../action';
 
 const initialState: Data = {
   offers: [],
@@ -8,24 +9,18 @@ const initialState: Data = {
   nearbyOffersForId: null,
 };
 
-const dataReducer = (state = initialState, action: Actions): Data => {
-  switch (action.type) {
-    case ActionType.LoadOffers: {
-      const offers = action.payload;
-      return { ...state, offers };
-    }
-    case ActionType.LoadReviews: {
-      const reviews = action.payload;
-      return { ...state, reviews };
-    }
-    case ActionType.LoadNearbyOffers: {
-      const nearbyOffers = action.payload.offers;
-      const nearbyOffersForId = action.payload.id;
-      return { ...state, nearbyOffers, nearbyOffersForId };
-    }
-    default:
-      return state;
-  }
-};
+const dataReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(loadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload.offers;
+      state.nearbyOffersForId = action.payload.id;
+    });
+});
 
 export { dataReducer };

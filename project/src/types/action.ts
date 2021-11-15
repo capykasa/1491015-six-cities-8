@@ -6,19 +6,7 @@ import {
   AxiosInstance
 } from 'axios';
 import { State } from '../types/state';
-
-import {
-  loadOffers,
-  loadReviews,
-  loadNearbyOffers,
-  selectCity,
-  selectSort,
-  requireAuthorization,
-  requireLogout,
-  setUsername,
-  redirectToRoute
-} from '../store/action';
-
+import { Action } from 'redux';
 
 export enum ActionType {
   SelectCity = 'offers/selectCity',
@@ -32,17 +20,6 @@ export enum ActionType {
   RedirectToRoute = 'offers/redirectToRoute'
 }
 
-export type Actions =
-  | ReturnType<typeof selectCity>
-  | ReturnType<typeof selectSort>
-  | ReturnType<typeof loadOffers>
-  | ReturnType<typeof loadReviews>
-  | ReturnType<typeof loadNearbyOffers>
-  | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>
-  | ReturnType<typeof setUsername>
-  | ReturnType<typeof redirectToRoute>;
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
 
-export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
-
-export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;
+export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Action>;

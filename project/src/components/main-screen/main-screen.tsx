@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Logo from '../logo/logo';
 import HeaderUser from '../header-user/header-user';
 import MainOffersList from '../main-offers-list/main-offers-list';
@@ -9,7 +8,6 @@ import CitiesList from '../cities-list/cities-list';
 import SortMenu from '../sort-menu/sort-menu';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Actions } from '../../types/action';
 import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
@@ -19,7 +17,6 @@ import { getOffers } from '../../store/data-reducer/selectors';
 
 const mapStateToProps = (state: State) => {
   const sortOffers = getOffers(state).filter((offer) => offer.city.name === getCityName(state));
-  console.log(getOffers(state));
 
   return {
     city: getCityName(state),
@@ -28,7 +25,7 @@ const mapStateToProps = (state: State) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSelectSort(sort: string) {
     dispatch(selectSort(sort));
   },
