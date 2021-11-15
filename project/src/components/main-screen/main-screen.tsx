@@ -14,14 +14,17 @@ import { State } from '../../types/state';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
+import { getCityName, getSelectSort } from '../../store/offers-reducer/selectors';
+import { getOffers } from '../../store/data-reducer/selectors';
 
-const mapStateToProps = ({ city, sort, offers }: State) => {
-  const sortOffers = offers.filter((offer) => offer.city.name === city);
+const mapStateToProps = (state: State) => {
+  const sortOffers = getOffers(state).filter((offer) => offer.city.name === getCityName(state));
+  console.log(getOffers(state));
 
   return {
-    city,
-    sort,
-    offers: getSortedOffers(sortOffers, sort),
+    city: getCityName(state),
+    sort: getSelectSort(state),
+    offers: getSortedOffers(sortOffers, getSelectSort(state)),
   };
 };
 

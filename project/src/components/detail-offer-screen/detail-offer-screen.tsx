@@ -1,10 +1,11 @@
-/* eslint-disable no-console */
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { AuthorizationStatus } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
+import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 import { Actions, ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import HeaderUser from '../header-user/header-user';
@@ -15,12 +16,12 @@ import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
 
-const mapStateToProps = ({ offers, reviews, nearbyOffers, nearbyOffersForId, authorizationStatus }: State) => ({
-  offers,
-  reviews,
-  nearbyOffers,
-  nearbyOffersForId,
-  authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
+  reviews: getReviews(state),
+  nearbyOffers: getNearbyOffers(state),
+  nearbyOffersForId: getNearbyOffersForId(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

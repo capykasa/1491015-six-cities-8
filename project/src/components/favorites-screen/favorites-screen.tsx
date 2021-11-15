@@ -3,9 +3,10 @@ import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import HeaderUser from '../header-user/header-user';
+import { getOffers } from '../../store/data-reducer/selectors';
 
-const mapStateToProps = ({ offers }: State) => ({
-  offers,
+const mapStateToProps = (state: State) => ({
+  offers: getOffers(state),
 });
 
 const connector = connect(mapStateToProps);

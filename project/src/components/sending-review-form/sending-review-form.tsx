@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
         // Надо как-то очистить форму
       })
       // eslint-disable-next-line no-console
-      .catch(() => console.log('error'));
+      .catch(() => console.log('error')); // Что-то бесполезное
   },
 });
 

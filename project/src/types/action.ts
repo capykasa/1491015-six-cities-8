@@ -21,15 +21,15 @@ import {
 
 
 export enum ActionType {
-  SelectCity = 'main/selectCity',
-  SelectSort = 'main/selectSort',
+  SelectCity = 'offers/selectCity',
+  SelectSort = 'offers/selectSort',
   LoadOffers = 'data/loadOffers',
   LoadReviews = 'data/loadReviews',
   LoadNearbyOffers = 'data/loadNearbyOffers',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   SetUsername = 'user/setUsername',
-  RedirectToRoute = 'main/redirectToRoute'
+  RedirectToRoute = 'offers/redirectToRoute'
 }
 
 export type Actions =

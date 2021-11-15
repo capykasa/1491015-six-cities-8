@@ -2,12 +2,13 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUsername } from '../../store/user-reducer/selectors';
 import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({ authorizationStatus, username }: State) => ({
-  authorizationStatus,
-  username,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  username: getUsername(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
