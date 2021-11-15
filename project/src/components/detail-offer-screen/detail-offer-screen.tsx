@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Dispatch } from 'redux';
 import { store } from '../..';
 import { AuthorizationStatus } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
-import { State } from '../../types/state';
 import HeaderUser from '../header-user/header-user';
 import Logo from '../logo/logo';
 import Map from '../map/map';
@@ -16,30 +14,17 @@ import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
 
-const mapStateToProps = (state: State) => ({
-  offers: getOffers(state),
-  reviews: getReviews(state),
-  nearbyOffers: getNearbyOffers(state),
-  nearbyOffersForId: getNearbyOffersForId(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  loadReviews(id: string) {
-    store.dispatch(fetchReviewAction(id));
-  },
-  loadNearbyOffers(id: string) {
-    store.dispatch(fetchNearbyOffersAction(id));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
-function DetailOfferScreen({ offers, reviews, nearbyOffers, nearbyOffersForId, authorizationStatus, loadReviews, loadNearbyOffers }: PropsFromRedux): JSX.Element {
+function DetailOfferScreen(): JSX.Element {
+
+  const offers = useSelector(getOffers);
+  const reviews = useSelector(getReviews);
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const nearbyOffersForId = useSelector(getNearbyOffersForId);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  //const dispatch = useDispatch();
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
@@ -49,12 +34,12 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, nearbyOffersForId, a
   const isNearbyOffersLoaded = paramId === nearbyOffersForId;
 
   useEffect(() => {
-    loadReviews(paramId.toString());
-  }, [paramId, loadReviews]);
+    store.dispatch(fetchReviewAction(paramId.toString()));
+  }, [paramId, fetchReviewAction]);
 
   useEffect(() => {
-    loadNearbyOffers(paramId.toString());
-  }, [paramId, loadNearbyOffers]);
+    store.dispatch(fetchNearbyOffersAction(paramId.toString()));
+  }, [paramId, fetchNearbyOffersAction]);                          // Все ли тут правильно?
 
   if (!offer) {
     return <PageNotFound />;
@@ -187,5 +172,4 @@ function DetailOfferScreen({ offers, reviews, nearbyOffers, nearbyOffersForId, a
   );
 }
 
-export { DetailOfferScreen };
-export default connector(DetailOfferScreen);
+export default DetailOfferScreen;

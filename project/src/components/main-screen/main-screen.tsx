@@ -6,40 +6,29 @@ import Map from '../map/map';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
 import SortMenu from '../sort-menu/sort-menu';
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
-import { State } from '../../types/state';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
 import { getCityName, getSelectSort } from '../../store/offers-reducer/selectors';
 import { getOffers } from '../../store/data-reducer/selectors';
 
-const mapStateToProps = (state: State) => {
-  const sortOffers = getOffers(state).filter((offer) => offer.city.name === getCityName(state));
+function MainScreen(): JSX.Element {
 
-  return {
-    city: getCityName(state),
-    sort: getSelectSort(state),
-    offers: getSortedOffers(sortOffers, getSelectSort(state)),
+  const city = useSelector(getCityName);
+  const sort = useSelector(getSelectSort);
+  const sortOffers = useSelector(getOffers).filter((offer) => offer.city.name === city);
+  const offers = getSortedOffers(sortOffers, sort);
+
+  const dispatch = useDispatch();
+
+  const onSelectSort = (selectedSort: string) => {
+    dispatch(selectSort(selectedSort));
   };
-};
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onSelectSort(sort: string) {
-    dispatch(selectSort(sort));
-  },
-  onSelectCity(city: string) {
-    dispatch(selectCity(city));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MainScreen(props: PropsFromRedux): JSX.Element {
-  const { city, offers, onSelectCity, onSelectSort } = props;
+  const onSelectCity = (selectedCity: string) => {
+    dispatch(selectCity(selectedCity));
+  };
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
@@ -93,5 +82,4 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export { MainScreen };
-export default connector(MainScreen);
+export default MainScreen;

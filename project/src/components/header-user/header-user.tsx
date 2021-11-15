@@ -1,28 +1,21 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUsername } from '../../store/user-reducer/selectors';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
 
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  username: getUsername(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+/* const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onLogoutAction() {
     dispatch(logoutAction());
   },
-});
+}); */
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+function HeaderUser(): JSX.Element {
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const username = useSelector(getUsername);
 
-function HeaderUser(props: PropsFromRedux): JSX.Element {
-  const { authorizationStatus, username, onLogoutAction } = props;
+  const dispatch = useDispatch();
 
   return (
     <nav className="header__nav">
@@ -42,7 +35,7 @@ function HeaderUser(props: PropsFromRedux): JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
 
-                onLogoutAction();
+                dispatch(logoutAction());
               }}
               to='/'
             >
@@ -61,4 +54,4 @@ function HeaderUser(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export default connector(HeaderUser);
+export default HeaderUser;
