@@ -1,46 +1,18 @@
-import { ActionType, Actions } from '../types/action';
-import { State } from '../types/state';
-import { AuthorizationStatus, Cities, Sorting } from '../const';
+import { combineReducers } from 'redux';
+import { dataReducer } from './data-reducer/data-reducer';
+import { offersReducer } from './offers-reducer/offers-reducer';
+import { userReducer } from './user-reducer/user-reducer';
 
-const initialState = {
-  city: Cities[0],
-  sort: Sorting.Popular,
-  offers: [],
-  reviews: [],
-  nearbyOffers: [],
-  authorizationStatus: AuthorizationStatus.Unknown,
-  isDataLoaded: false,
-  username: '',
-};
+export enum NameSpace {
+  offers = 'OFFERS',
+  data = 'DATA',
+  user = 'USER',
+}
 
-const reducer = (state: State = initialState, action: Actions): State => {
-  switch (action.type) {
-    case ActionType.SelectCity:
-      return { ...state, city: action.payload };
-    case ActionType.SelectSort: {
-      return { ...state, sort: action.payload };
-    }
-    case ActionType.LoadOffers: {
-      const offers = action.payload;
-      return { ...state, offers };
-    }
-    case ActionType.LoadReviews: {
-      const reviews = action.payload;
-      return { ...state, reviews };
-    }
-    case ActionType.LoadNearbyOffers: {
-      const nearbyOffers = action.payload;
-      return { ...state, nearbyOffers };
-    }
-    case ActionType.RequireAuthorization:
-      return { ...state, authorizationStatus: action.payload, isDataLoaded: true };
-    case ActionType.RequireLogout:
-      return { ...state, authorizationStatus: AuthorizationStatus.NoAuth };
-    case ActionType.SetUsername:
-      return { ...state, username: action.payload };
-    default:
-      return state;
-  }
-};
+export const reducer = combineReducers({
+  [NameSpace.offers]: offersReducer,
+  [NameSpace.data]: dataReducer,
+  [NameSpace.user]: userReducer,
+});
 
-export { reducer };
+export type RootState = ReturnType<typeof reducer>;

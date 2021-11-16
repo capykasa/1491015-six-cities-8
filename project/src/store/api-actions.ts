@@ -11,27 +11,27 @@ export const fetchOfferAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const { data } = await api.get<Offer[]>(APIRoute.Offers);
 
-    const adaptedDate = data.map((item) => (adaptOfferToClient(item)));
+    const adaptedData = data.map((item) => (adaptOfferToClient(item)));
 
-    dispatch(loadOffers(adaptedDate));
+    dispatch(loadOffers(adaptedData));
   };
 
 export const fetchReviewAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const { data } = await api.get<Review[]>(`${APIRoute.Reviews}/${id}`);
 
-    const adaptedDate = data.map((item) => (adaptReviewToClient(item)));
+    const adaptedData = data.map((item) => (adaptReviewToClient(item)));
 
-    dispatch(loadReviews(adaptedDate));
+    dispatch(loadReviews(adaptedData));
   };
 
 export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const { data } = await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`);
 
-    const adaptedDate = data.map((item) => (adaptOfferToClient(item)));
+    const adaptedData = data.map((item) => (adaptOfferToClient(item)));
 
-    dispatch(loadNearbyOffers(adaptedDate));
+    dispatch(loadNearbyOffers(adaptedData, parseInt(id, 10)));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

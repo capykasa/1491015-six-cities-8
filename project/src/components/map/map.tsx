@@ -29,7 +29,15 @@ function Map(props: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
+  const markersRef = useRef<Marker[]>([]);
+
   useEffect(() => {
+    if (markersRef.current) {
+      markersRef.current.forEach((marker) => marker.remove);
+      markersRef.current = [];
+    }
+
+
     if (map) {
       points.forEach((point) => {
         const marker = new Marker({
@@ -37,13 +45,14 @@ function Map(props: MapProps): JSX.Element {
           lng: point.location.longitude,
         });
 
-        marker
+        const addedMarker = marker
           .setIcon(
             selectedPoint !== null && selectedPoint !== undefined && point.id === selectedPoint.id
               ? currentCustomIcon
               : defaultCustomIcon,
           )
           .addTo(map);
+        markersRef.current.push(addedMarker);
       });
     }
   }, [map, points, selectedPoint]);

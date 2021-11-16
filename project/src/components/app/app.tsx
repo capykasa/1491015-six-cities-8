@@ -10,9 +10,10 @@ import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
 import browserHistory from '../../browser-history';
+import { getLoadedDataStatus } from '../../store/user-reducer/selectors';
 
-const mapStateToProps = ({ isDataLoaded }: State) => ({
-  isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 const connector = connect(mapStateToProps);
