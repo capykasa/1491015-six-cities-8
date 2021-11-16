@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { ChangeEvent, FormEvent, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { APIRoute } from '../../const';
 import { api } from '../../services/api';
 import { fetchReviewAction } from '../../store/api-actions';
+import { ThunkAppDispatch } from '../../types/action';
 import { Review, ReviewPost } from '../../types/reviews';
 
 const STARS = [5, 4, 3, 2, 1];
@@ -13,7 +13,7 @@ type SendingReviewFormProps = {
   id: string;
 }
 
-/* const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(review: ReviewPost, id: string) {
     api.post<Review>(`${APIRoute.Reviews}/${id}`, review)
       .then(() => {
@@ -23,26 +23,17 @@ type SendingReviewFormProps = {
         // Надо как-то очистить форму
       })
       // eslint-disable-next-line no-console
-      .catch(() => console.log('error')); // Что-то бесполезное
+      .catch(() => console.log('error'));
   },
-}); */
+});
 
-function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
-  const { id } = props;
+const connector = connect(null, mapDispatchToProps);
 
-  const dispatch = useDispatch();
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & SendingReviewFormProps;
 
-  const onSubmit = (review: ReviewPost, idd: string) => {
-    api.post<Review>(`${APIRoute.Reviews}/${idd}`, review)
-      .then(() => {
-        dispatch(fetchReviewAction(idd));
-      })
-      .then(() => {
-        // Надо как-то очистить форму
-      })
-      // eslint-disable-next-line no-console
-      .catch(() => console.log('error')); // Что-то бесполезное
-  };
+function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
+  const { id, onSubmit } = props;
 
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
   let rating: number;                                             // Тут нужен тоже useRef?
@@ -51,13 +42,12 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
     evt.preventDefault();
 
     if (commentRef.current !== null) {
-      dispatch(onSubmit(
+      onSubmit(
         {
           rating: rating,
           comment: commentRef.current.value,
         },
-        id));
-      commentRef.current = null; // :c
+        id);
     }
   };
 
@@ -126,4 +116,4 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
   );
 }
 
-export default SendingReviewForm;
+export default connector(SendingReviewForm);
