@@ -1,5 +1,6 @@
-import React from 'react';
-import { ChangeEvent, FormEvent, useRef } from 'react';
+/* eslint-disable no-console */
+import React, { ChangeEvent, useRef, useState } from 'react';
+import { FormEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { APIRoute } from '../../const';
 import { api } from '../../services/api';
@@ -36,15 +37,15 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
   const { id, onSubmit } = props;
 
   const commentRef = useRef<HTMLTextAreaElement | null>(null);
-  let rating: number;                                             // Тут нужен тоже useRef?
+  const [ratingValue, setRatingValue] = useState<number | undefined>();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (commentRef.current !== null) {
+    if (commentRef.current !== null && ratingValue !== undefined) {
       onSubmit(
         {
-          rating: rating,
+          rating: ratingValue,
           comment: commentRef.current.value,
         },
         id);
@@ -61,7 +62,7 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-          rating = Number(target.value);
+          setRatingValue(Number(target.value));
         }}
         className="reviews__rating-form form__rating"
       >

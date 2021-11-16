@@ -12,6 +12,7 @@ import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
 import { getCityName, getSelectSort } from '../../store/offers-reducer/selectors';
 import { getOffers } from '../../store/data-reducer/selectors';
+import MainEmpty from '../main-empty/main-empty';
 
 function MainScreen(): JSX.Element {
 
@@ -57,26 +58,28 @@ function MainScreen(): JSX.Element {
           city={city}
           onSelectCity={onSelectCity}
         />
-        <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {city}</b>
-              <SortMenu
-                onSelectSort={onSelectSort}
-              />
-              <MainOffersList
-                offers={offers}
-                onOffersListHover={onOffersListHover}
-              />
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map city={cityOnMap} points={offers} selectedPoint={selectedPoint} />
+        {offers.length > 0 ?
+          <div className="cities">
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <b className="places__found">{offers.length} places to stay in {city}</b>
+                <SortMenu
+                  onSelectSort={onSelectSort}
+                />
+                <MainOffersList
+                  offers={offers}
+                  onOffersListHover={onOffersListHover}
+                />
               </section>
+              <div className="cities__right-section">
+                <section className="cities__map map">
+                  <Map city={cityOnMap} points={offers} selectedPoint={selectedPoint} />
+                </section>
+              </div>
             </div>
           </div>
-        </div>
+          : <MainEmpty />}
       </main>
     </div>
   );

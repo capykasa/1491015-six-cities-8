@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { store } from '../..';
 import { AuthorizationStatus } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
@@ -24,7 +23,7 @@ function DetailOfferScreen(): JSX.Element {
   const nearbyOffersForId = useSelector(getNearbyOffersForId);
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
@@ -34,11 +33,11 @@ function DetailOfferScreen(): JSX.Element {
   const isNearbyOffersLoaded = paramId === nearbyOffersForId;
 
   useEffect(() => {
-    store.dispatch(fetchReviewAction(paramId.toString()));
+    dispatch(fetchReviewAction(paramId.toString()));
   }, [paramId, fetchReviewAction]);
 
   useEffect(() => {
-    store.dispatch(fetchNearbyOffersAction(paramId.toString()));
+    dispatch(fetchNearbyOffersAction(paramId.toString()));
   }, [paramId, fetchNearbyOffersAction]);                          // Все ли тут правильно?
 
   if (!offer) {

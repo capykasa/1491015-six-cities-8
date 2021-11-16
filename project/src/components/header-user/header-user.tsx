@@ -4,12 +4,6 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 import { getAuthorizationStatus, getUsername } from '../../store/user-reducer/selectors';
 
-/* const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLogoutAction() {
-    dispatch(logoutAction());
-  },
-}); */
-
 function HeaderUser(): JSX.Element {
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
