@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { APIRoute } from '../../const';
@@ -16,8 +16,8 @@ type SendingReviewFormProps = {
 function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
   const { id } = props;
 
-  const commentRef = useRef<HTMLTextAreaElement | null>(null);
-  const [ratingValue, setRatingValue] = useState<number | null>(null);
+  const [commentText, setCommentText] = useState<string>('');
+  const [ratingValue, setRatingValue] = useState<number>(0);
 
   const dispatch = useDispatch();
 
@@ -27,8 +27,8 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         dispatch(fetchReviewAction(reviewId));
       })
       .then(() => {
-        commentRef.current = null;
-        setRatingValue(null);
+        setCommentText('');
+        setRatingValue(0);
       })
       // eslint-disable-next-line no-console
       .catch(() => console.log('error'));
@@ -37,11 +37,11 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (commentRef.current !== null && ratingValue !== null) {
+    if (commentText !== '' && ratingValue !== undefined) {
       onSubmit(
         {
           rating: ratingValue,
-          comment: commentRef.current.value,
+          comment: commentText,
         },
         id);
     }
@@ -68,9 +68,10 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              value={star.toString()}
+              value={star}
               id={`${star}-stars`}
               type="radio"
+              checked={ratingValue === star} readOnly
             />
             <label
               htmlFor={`${star}-stars`}
@@ -85,7 +86,10 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         ))}
       </div>
       <textarea
-        ref={commentRef}
+        onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+          setCommentText(target.value);
+        }}
+        value={commentText}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
