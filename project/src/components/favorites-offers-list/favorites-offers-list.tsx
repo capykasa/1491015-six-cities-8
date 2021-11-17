@@ -1,4 +1,5 @@
 import { Offer } from '../../types/offers';
+import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
@@ -10,6 +11,10 @@ const url = '';
 function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
   const favoritesOffers = offers.filter((offer) => offer.isFavorite);
   const individualCities = Array.from(new Set(favoritesOffers.map((offer) => offer.city.name)));
+
+  if (favoritesOffers.length === 0) {
+    return <FavoritesEmpty />;
+  }
 
   return (
     <main className="page__main page__main--favorites">

@@ -20,12 +20,27 @@ export const Cities = [
   'Dusseldorf',
 ];
 
-export const Sorting = {
-  Popular: 'Popular',
-  PriceToHigh: 'Price: low to high',
-  PriceToLow: 'Price: high to low',
-  TopRated: 'Top rated first',
-};
+export enum Sorting {
+  Popular = 'Popular',
+  PriceToHigh = 'Price: low to high',
+  PriceToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
+export enum footerLogoSize {
+  width = '64',
+  height = '33',
+}
+
+export enum favoritesButtonSizeMain {
+  width = '18',
+  height = '19',
+}
+
+export enum favoritesButtonSizeDetail {
+  width = '31',
+  height = '33',
+}
 
 export enum APIRoute {
   Offers = '/hotels',

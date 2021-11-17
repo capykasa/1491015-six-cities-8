@@ -26,7 +26,7 @@ function MainOffersList({ offers, onOffersListHover }: OffersListProps): JSX.Ele
               <span>Premium</span>
             </div>}
           <div className="cities__image-wrapper place-card__image-wrapper">
-            <Link to=''>
+            <Link to={`/offer/${item.id}`}>
               <img className="place-card__image" src={item.previewImage} width="260" height="200" alt="Place" />
             </Link>
           </div>

@@ -1,11 +1,7 @@
 import { Link } from 'react-router-dom';
+import { favoritesButtonSizeMain } from '../../const';
 import { Offer } from '../../types/offers';
 import FavoritesButton from '../favorites-button/favorites-button';
-
-const favoritesButtonSize = {
-  width: '18',
-  height: '19',
-} as const;
 
 type OfferCardProps = {
   offers: Offer;
@@ -25,8 +21,8 @@ function OfferCard(props: OfferCardProps): JSX.Element {
         <FavoritesButton
           id={id}
           isFavorite={isFavorite}
-          width={favoritesButtonSize.width}
-          height={favoritesButtonSize.height}
+          width={favoritesButtonSizeMain.width}
+          height={favoritesButtonSizeMain.height}
         />
       </div>
       <div className="place-card__rating rating">

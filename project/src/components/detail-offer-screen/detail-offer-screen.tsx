@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, favoritesButtonSizeDetail } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
@@ -13,11 +13,6 @@ import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
-
-const favoritesButtonSize = {
-  width: '31',
-  height: '33',
-} as const;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
@@ -94,8 +89,8 @@ function DetailOfferScreen(): JSX.Element {
                 <FavoritesButton
                   id={paramId}
                   isFavorite={offer.isFavorite}
-                  width={favoritesButtonSize.width}
-                  height={favoritesButtonSize.height}
+                  width={favoritesButtonSizeDetail.width}
+                  height={favoritesButtonSizeDetail.height}
                 />
               </div>
               <div className="property__rating rating">
