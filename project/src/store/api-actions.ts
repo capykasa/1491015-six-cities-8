@@ -6,6 +6,9 @@ import { Offer } from '../types/offers';
 import { AuthData } from '../types/auth-data';
 import { Review } from '../types/reviews';
 import { adaptOfferToClient, adaptReviewToClient } from '../utils';
+import { toast } from 'react-toastify';
+
+const AUTH_FAIL_MESSAGE = 'Log In. Please.';
 
 export const fetchOfferAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -38,8 +41,12 @@ export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
       .then(() => {
-        // Тут бы как-то проверить имя пользователя
+        // Тут бы как-то проверить имя пользователя и использовать
+        //dispatch(setUsername(name));
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      })
+      .catch(() => {
+        toast.info(AUTH_FAIL_MESSAGE);
       });
   };
 

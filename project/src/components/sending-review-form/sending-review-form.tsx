@@ -2,10 +2,13 @@
 import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { APIRoute } from '../../const';
 import { api } from '../../services/api';
 import { fetchReviewAction } from '../../store/api-actions';
 import { Review, ReviewPost } from '../../types/reviews';
+
+const FORM_SUBMISSION_ERROR = 'No.';
 
 const STARS = [5, 4, 3, 2, 1];
 
@@ -30,8 +33,9 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         setCommentText('');
         setRatingValue(0);
       })
-      // eslint-disable-next-line no-console
-      .catch(() => console.log('error'));
+      .catch(() => {
+        toast.info(FORM_SUBMISSION_ERROR);
+      });
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
