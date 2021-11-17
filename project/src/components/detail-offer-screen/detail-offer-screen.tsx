@@ -5,6 +5,7 @@ import { AuthorizationStatus } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
+import FavoritesButton from '../favorites-button/favorites-button';
 import HeaderUser from '../header-user/header-user';
 import Logo from '../logo/logo';
 import Map from '../map/map';
@@ -12,6 +13,11 @@ import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
 import Reviews from '../reviews/reviews';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
+
+const favoritesButtonSize = {
+  width: '31',
+  height: '33',
+} as const;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
@@ -34,11 +40,11 @@ function DetailOfferScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchReviewAction(paramId.toString()));
-  }, [paramId, fetchReviewAction]);
+  }, [paramId, dispatch]);
 
   useEffect(() => {
     dispatch(fetchNearbyOffersAction(paramId.toString()));
-  }, [paramId, fetchNearbyOffersAction]);                          // Все ли тут правильно?
+  }, [paramId, dispatch]);
 
   if (!offer) {
     return <PageNotFound />;
@@ -75,22 +81,22 @@ function DetailOfferScreen(): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                {offer.isPremium ?
+              {offer.isPremium ?
+                <div className="property__mark">
                   <div className="place-card__mark">
                     <span>Premium</span>
-                  </div> : ''}
-              </div>
+                  </div>
+                </div> : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoritesButton
+                  id={paramId}
+                  isFavorite={offer.isFavorite}
+                  width={favoritesButtonSize.width}
+                  height={favoritesButtonSize.height}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

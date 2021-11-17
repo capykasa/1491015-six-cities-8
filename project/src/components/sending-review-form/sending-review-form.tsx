@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { FormEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { APIRoute } from '../../const';
 import { api } from '../../services/api';
 import { fetchReviewAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
 import { Review, ReviewPost } from '../../types/reviews';
 
 const STARS = [5, 4, 3, 2, 1];
@@ -14,35 +13,31 @@ type SendingReviewFormProps = {
   id: string;
 }
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(review: ReviewPost, id: string) {
-    api.post<Review>(`${APIRoute.Reviews}/${id}`, review)
+function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
+  const { id } = props;
+
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
+  const [ratingValue, setRatingValue] = useState<number | null>(null);
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (review: ReviewPost, reviewId: string) => {
+    api.post<Review>(`${APIRoute.Reviews}/${reviewId}`, review)
       .then(() => {
-        (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+        dispatch(fetchReviewAction(reviewId));
       })
       .then(() => {
-        // Надо как-то очистить форму
+        commentRef.current = null;
+        setRatingValue(null);
       })
       // eslint-disable-next-line no-console
       .catch(() => console.log('error'));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & SendingReviewFormProps;
-
-function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { id, onSubmit } = props;
-
-  const commentRef = useRef<HTMLTextAreaElement | null>(null);
-  const [ratingValue, setRatingValue] = useState<number | undefined>();
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (commentRef.current !== null && ratingValue !== undefined) {
+    if (commentRef.current !== null && ratingValue !== null) {
       onSubmit(
         {
           rating: ratingValue,
@@ -117,4 +112,4 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export default connector(SendingReviewForm);
+export default SendingReviewForm;
