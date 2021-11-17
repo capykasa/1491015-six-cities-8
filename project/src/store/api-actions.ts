@@ -56,6 +56,7 @@ export const loginAction = ({ login: email, password }: AuthData): ThunkActionRe
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(setUsername(email));
+    dispatch(fetchOfferAction());
     dispatch(redirectToRoute(AppRoute.Main));
   };
 
@@ -63,5 +64,6 @@ export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     api.delete(APIRoute.Logout);
     dropToken();
+    dispatch(fetchOfferAction());
     dispatch(requireLogout());
   };

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,6 +8,9 @@ import { fetchReviewAction } from '../../store/api-actions';
 import { Review, ReviewPost } from '../../types/reviews';
 
 const FORM_SUBMISSION_ERROR = 'No.';
+const FORM_SUBMISSION_RULES = 'Min 50 symbols, max 300';
+const MIN_SYMBOLS = 50;
+const MAX_SYMBOLS = 300;
 
 const STARS = [5, 4, 3, 2, 1];
 
@@ -41,13 +43,15 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (commentText !== '' && ratingValue !== undefined) {
+    if (commentText.length >= MIN_SYMBOLS && commentText.length <= MAX_SYMBOLS && ratingValue !== undefined) {
       onSubmit(
         {
           rating: ratingValue,
           comment: commentText,
         },
         id);
+    } else {
+      toast.info(FORM_SUBMISSION_RULES);
     }
   };
 
@@ -102,13 +106,13 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
       >
       </textarea>
       <div className="reviews__button-wrapper">
-        <p className="reviews__help">
+        <p className="reviews__help"> {/* no more than */}
           To submit review please make sure to set
           <span className="reviews__star">rating</span>
-          and describe your stay with at least
-          <b className="reviews__text-amount">
-            50 characters
-          </b>.
+          and describe your stay with
+          {commentText.length < 50
+            ? <b className="reviews__text-amount"> at least {MIN_SYMBOLS - commentText.length} characters</b>
+            : <b className="reviews__text-amount"> no more than {MAX_SYMBOLS - commentText.length} characters</b>}
         </p>
         <button
           className="reviews__submit form__submit button"

@@ -1,20 +1,23 @@
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { selectCity } from '../../store/action';
 import { Offer } from '../../types/offers';
-import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
 }
 
-const url = '';
-
 function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
-  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
-  const individualCities = Array.from(new Set(favoritesOffers.map((offer) => offer.city.name)));
 
-  if (favoritesOffers.length === 0) {
-    return <FavoritesEmpty />;
-  }
+  const individualCities = Array.from(new Set(offers.map((offer) => offer.city.name)));
+
+  const dispatch = useDispatch();
+
+  const onSelectCity = (selectedCity: string) => {
+    dispatch(selectCity(selectedCity));
+  };
 
   return (
     <main className="page__main page__main--favorites">
@@ -22,21 +25,27 @@ function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
         <section className="favorites">
           <h1 className="favorites__title">Saved listing</h1>
           <ul className="favorites__list">
-            {individualCities.map((city) => (
+            {individualCities.map((favoriteCity) => (
               <li
-                key={city}
+                key={favoriteCity}
                 className="favorites__locations-items"
               >
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href={url}>
-                      <span>{city}</span>
-                    </a>
+                    <Link
+                      onClick={() => {
+                        onSelectCity(favoriteCity);
+                      }}
+                      className="locations__item-link"
+                      to={AppRoute.Main}
+                    >
+                      <span>{favoriteCity}</span>
+                    </Link>
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {favoritesOffers.map((offer: Offer) => {
-                    if (offer.city.name !== city) {
+                  {offers.map((offer) => {
+                    if (offer.city.name !== favoriteCity) {
                       return '';
                     }
                     return (
@@ -44,9 +53,9 @@ function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
                         className="favorites__card place-card"
                       >
                         <div className="favorites__image-wrapper place-card__image-wrapper">
-                          <a href={url}>
+                          <Link to={`/offer/${offer.id}`}>
                             <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place" />
-                          </a>
+                          </Link>
                         </div>
                         <OfferCard
                           offers={offer}

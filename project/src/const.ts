@@ -27,19 +27,19 @@ export enum Sorting {
   TopRated = 'Top rated first',
 }
 
-export enum footerLogoSize {
-  width = '64',
-  height = '33',
+export enum FooterLogoSize {
+  Width = '64',
+  Height = '33',
 }
 
-export enum favoritesButtonSizeMain {
-  width = '18',
-  height = '19',
+export enum FavoritesButtonSizeMain {
+  Width = '18',
+  Height = '19',
 }
 
-export enum favoritesButtonSizeDetail {
-  width = '31',
-  height = '33',
+export enum FavoritesButtonSizeDetail {
+  Width = '31',
+  Height = '33',
 }
 
 export enum APIRoute {

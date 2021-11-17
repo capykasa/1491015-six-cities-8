@@ -12,7 +12,7 @@ import { getSortedOffers } from '../../utils';
 import { cities } from '../../mocks/cities';
 import { getCityName, getSelectSort } from '../../store/offers-reducer/selectors';
 import { getOffers } from '../../store/data-reducer/selectors';
-import MainEmpty from '../main-empty/main-empty';
+import MainOffersEmptyList from '../main-offers-empty-list/main-offers-empty-list';
 
 function MainScreen(): JSX.Element {
 
@@ -79,7 +79,7 @@ function MainScreen(): JSX.Element {
               </div>
             </div>
           </div>
-          : <MainEmpty />}
+          : <MainOffersEmptyList />}
       </main>
     </div>
   );
