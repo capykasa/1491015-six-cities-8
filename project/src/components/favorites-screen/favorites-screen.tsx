@@ -1,15 +1,19 @@
 import Logo from '../logo/logo';
-import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
 import { useSelector } from 'react-redux';
 import HeaderUser from '../header-user/header-user';
 import { getOffers } from '../../store/data-reducer/selectors';
+import EmptyFavoritesList from '../empty-favorites-list/empty-favorites-list';
+import { FooterLogoSize } from '../../const';
+import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
 
 function FavoritesScreen(): JSX.Element {
 
   const offers = useSelector(getOffers);
 
+  const favoritesOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
-    <div className="page">
+    <div className={favoritesOffers.length === 0 ? 'page page--favorites-empty' : 'page'}>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -21,17 +25,17 @@ function FavoritesScreen(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FvoritesOffersList
-              offers={offers}
-            />
-          </section>
-        </div>
-      </main >
-    </div >
+      {favoritesOffers.length === 0
+        ? <EmptyFavoritesList />
+        : <FvoritesOffersList offers={favoritesOffers} />}
+
+      <footer className="footer">
+        <Logo
+          width={FooterLogoSize.Width}
+          height={FooterLogoSize.Height}
+        />
+      </footer>
+    </div>
   );
 }
 

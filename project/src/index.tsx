@@ -7,6 +7,8 @@ import { reducer } from './store/reducer';
 import { checkAuthAction, fetchOfferAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
 import { api } from './services/api';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const store = configureStore({
   reducer: reducer,
@@ -24,6 +26,7 @@ store.dispatch(fetchOfferAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastContainer />
       <App />
     </Provider>
   </React.StrictMode>,

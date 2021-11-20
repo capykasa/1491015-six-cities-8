@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { store } from '../..';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, FavoritesButtonSizeDetail } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
+import FavoritesButton from '../favorites-button/favorites-button';
 import HeaderUser from '../header-user/header-user';
 import Logo from '../logo/logo';
 import Map from '../map/map';
@@ -24,7 +24,7 @@ function DetailOfferScreen(): JSX.Element {
   const nearbyOffersForId = useSelector(getNearbyOffersForId);
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const params = useParams() as { id: string };
   const paramId = paramToNumber(params.id);
@@ -34,12 +34,12 @@ function DetailOfferScreen(): JSX.Element {
   const isNearbyOffersLoaded = paramId === nearbyOffersForId;
 
   useEffect(() => {
-    store.dispatch(fetchReviewAction(paramId.toString()));
-  }, [paramId, fetchReviewAction]);
+    dispatch(fetchReviewAction(paramId.toString()));
+  }, [paramId, dispatch]);
 
   useEffect(() => {
-    store.dispatch(fetchNearbyOffersAction(paramId.toString()));
-  }, [paramId, fetchNearbyOffersAction]);                          // Все ли тут правильно?
+    dispatch(fetchNearbyOffersAction(paramId.toString()));
+  }, [paramId, dispatch]);
 
   if (!offer) {
     return <PageNotFound />;
@@ -76,22 +76,22 @@ function DetailOfferScreen(): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                {offer.isPremium ?
+              {offer.isPremium ?
+                <div className="property__mark">
                   <div className="place-card__mark">
                     <span>Premium</span>
-                  </div> : ''}
-              </div>
+                  </div>
+                </div> : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                <FavoritesButton
+                  id={paramId}
+                  isFavorite={offer.isFavorite}
+                  width={FavoritesButtonSizeDetail.Width}
+                  height={FavoritesButtonSizeDetail.Height}
+                />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

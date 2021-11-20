@@ -1,11 +1,16 @@
-import React from 'react';
-import { ChangeEvent, FormEvent, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { ChangeEvent, useState } from 'react';
+import { FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { APIRoute } from '../../const';
 import { api } from '../../services/api';
 import { fetchReviewAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
 import { Review, ReviewPost } from '../../types/reviews';
+
+const FORM_SUBMISSION_ERROR = 'No.';
+const FORM_SUBMISSION_RULES = 'Min 50 symbols, max 300';
+const MIN_SYMBOLS = 50;
+const MAX_SYMBOLS = 300;
 
 const STARS = [5, 4, 3, 2, 1];
 
@@ -13,41 +18,40 @@ type SendingReviewFormProps = {
   id: string;
 }
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(review: ReviewPost, id: string) {
-    api.post<Review>(`${APIRoute.Reviews}/${id}`, review)
+function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
+  const { id } = props;
+
+  const [commentText, setCommentText] = useState<string>('');
+  const [ratingValue, setRatingValue] = useState<number>(0);
+
+  const dispatch = useDispatch();
+
+  const onSubmit = (review: ReviewPost, reviewId: string) => {
+    api.post<Review>(`${APIRoute.Reviews}/${reviewId}`, review)
       .then(() => {
-        (dispatch as ThunkAppDispatch)(fetchReviewAction(id));
+        dispatch(fetchReviewAction(reviewId));
       })
       .then(() => {
-        // Надо как-то очистить форму
+        setCommentText('');
+        setRatingValue(0);
       })
-      // eslint-disable-next-line no-console
-      .catch(() => console.log('error'));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & SendingReviewFormProps;
-
-function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
-  const { id, onSubmit } = props;
-
-  const commentRef = useRef<HTMLTextAreaElement | null>(null);
-  let rating: number;                                             // Тут нужен тоже useRef?
+      .catch(() => {
+        toast.info(FORM_SUBMISSION_ERROR);
+      });
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (commentRef.current !== null) {
+    if (commentText.length >= MIN_SYMBOLS && commentText.length <= MAX_SYMBOLS && ratingValue !== undefined) {
       onSubmit(
         {
-          rating: rating,
-          comment: commentRef.current.value,
+          rating: ratingValue,
+          comment: commentText,
         },
         id);
+    } else {
+      toast.info(FORM_SUBMISSION_RULES);
     }
   };
 
@@ -61,7 +65,7 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div
         onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
-          rating = Number(target.value);
+          setRatingValue(Number(target.value));
         }}
         className="reviews__rating-form form__rating"
       >
@@ -72,9 +76,10 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              value={star.toString()}
+              value={star}
               id={`${star}-stars`}
               type="radio"
+              checked={ratingValue === star} readOnly
             />
             <label
               htmlFor={`${star}-stars`}
@@ -89,7 +94,10 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
         ))}
       </div>
       <textarea
-        ref={commentRef}
+        onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+          setCommentText(target.value);
+        }}
+        value={commentText}
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
@@ -98,13 +106,13 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
       >
       </textarea>
       <div className="reviews__button-wrapper">
-        <p className="reviews__help">
+        <p className="reviews__help"> {/* no more than */}
           To submit review please make sure to set
           <span className="reviews__star">rating</span>
-          and describe your stay with at least
-          <b className="reviews__text-amount">
-            50 characters
-          </b>.
+          and describe your stay with
+          {commentText.length < 50
+            ? <b className="reviews__text-amount"> at least {MIN_SYMBOLS - commentText.length} characters</b>
+            : <b className="reviews__text-amount"> no more than {MAX_SYMBOLS - commentText.length} characters</b>}
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -116,4 +124,4 @@ function SendingReviewForm(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export default connector(SendingReviewForm);
+export default SendingReviewForm;
