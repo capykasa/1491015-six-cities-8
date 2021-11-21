@@ -20,6 +20,14 @@ export const Cities = [
   'Dusseldorf',
 ];
 
+export enum DefaultCity {
+  title = 'Paris',
+  latitude = 48.85661,
+  longitude = 2.351499,
+  zoom = 13,
+}
+
+
 export enum Sorting {
   Popular = 'Popular',
   PriceToHigh = 'Price: low to high',

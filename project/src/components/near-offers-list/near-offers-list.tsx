@@ -15,7 +15,7 @@ function NearOffersList({ offers }: NearOffersListProps): JSX.Element {
           className="near-places__card place-card"
         >
           <div className="near-places__image-wrapper place-card__image-wrapper">
-            <Link to=''>
+            <Link to={`/offer/${item.id}`}>
               <img className="place-card__image" src={item.previewImage} width="260" height="200" alt="Place" />
             </Link>
           </div>
