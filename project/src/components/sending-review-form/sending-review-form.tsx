@@ -117,6 +117,7 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
+          disabled={commentText.length < 50 || commentText.length > 300}
         >Submit
         </button>
       </div>

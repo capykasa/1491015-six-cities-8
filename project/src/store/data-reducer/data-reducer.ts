@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { Data } from '../../types/state';
-import { loadNearbyOffers, loadOffers, loadReviews } from '../action';
+import { loadNearbyOffers, loadOffers, loadReviews, toggleOfferIsFavorite } from '../action';
 
 const initialState: Data = {
   offers: [],
@@ -20,6 +20,13 @@ const dataReducer = createReducer(initialState, (builder) => {
     .addCase(loadNearbyOffers, (state, action) => {
       state.nearbyOffers = action.payload.offers;
       state.nearbyOffersForId = action.payload.id;
+    })
+    .addCase(toggleOfferIsFavorite, (state, action) => {
+      const offerById = state.offers.find((offer) => offer.id === action.payload.id);
+      if (!offerById) {
+        return;
+      }
+      offerById.isFavorite = action.payload.isFavorite;
     });
 });
 

@@ -39,6 +39,13 @@ export const loadReviews = createAction(
   }),
 );
 
+export const toggleOfferIsFavorite = createAction(
+  ActionType.ToggleOfferIsFavorite,
+  (id: number, isFavorite: boolean) => ({
+    payload: { id, isFavorite },
+  }),
+);
+
 export const requireAuthorization = createAction(
   ActionType.RequireAuthorization,
   (authStatus: AuthorizationStatus) => ({

@@ -14,6 +14,7 @@ export enum ActionType {
   LoadOffers = 'data/loadOffers',
   LoadReviews = 'data/loadReviews',
   LoadNearbyOffers = 'data/loadNearbyOffers',
+  ToggleOfferIsFavorite = 'data/toggleOfferIsFavorite',
   RequireAuthorization = 'user/requireAuthorization',
   RequireLogout = 'user/requireLogout',
   SetUsername = 'user/setUsername',
