@@ -6,7 +6,7 @@ export const getSortedOffers = (offers: Offer[], sort: string): Offer[] => {
   let sortOffers = offers;
 
   if (sort === Sorting.Popular) {
-    sortOffers = offers.sort((offerA, offerB) => offerB.rating - offerA.rating);
+    sortOffers = offers;
   }
 
   if (sort === Sorting.PriceToHigh) {
@@ -64,16 +64,16 @@ export const adaptOfferToClient = (item: any): Offer => (
 );
 
 export const adaptReviewToClient = (item: any): Review => (
-  Object.assign(
-    {},
-    item,
-    {
-      user: {
-        id: item.user['id'],
-        isPro: item.user['is_pro'],
-        name: item.user['name'],
-        avatarUrl: item.user['avatar_url'],
-      },
+  {
+    comment: item['comment'],
+    date: item['date'],
+    id: item['id'],
+    rating: item['rating'],
+    user: {
+      id: item.user['id'],
+      isPro: item.user['is_pro'],
+      name: item.user['name'],
+      avatarUrl: item.user['avatar_url'],
     },
-  )
+  }
 );

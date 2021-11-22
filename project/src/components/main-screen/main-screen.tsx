@@ -9,10 +9,10 @@ import SortMenu from '../sort-menu/sort-menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCity, selectSort } from '../../store/action';
 import { getSortedOffers } from '../../utils';
-import { cities } from '../../mocks/cities';
 import { getCityName, getSelectSort } from '../../store/offers-reducer/selectors';
 import { getOffers } from '../../store/data-reducer/selectors';
 import MainOffersEmptyList from '../main-offers-empty-list/main-offers-empty-list';
+import { DefaultCity } from '../../const';
 
 function MainScreen(): JSX.Element {
 
@@ -33,7 +33,7 @@ function MainScreen(): JSX.Element {
 
   const [selectedPoint, setSelectedPoint] = useState<Offer | undefined>(undefined);
 
-  const cityOnMap = offers.length ? offers[0].city.location : cities;
+  const cityOnMap = offers.length ? offers[0].city.location : DefaultCity;
 
   const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);

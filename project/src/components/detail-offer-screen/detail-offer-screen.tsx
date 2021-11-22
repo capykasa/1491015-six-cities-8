@@ -11,8 +11,10 @@ import Logo from '../logo/logo';
 import Map from '../map/map';
 import NearOffersList from '../near-offers-list/near-offers-list';
 import PageNotFound from '../page-not-found/page-not-found';
-import Reviews from '../reviews/reviews';
+import ReviewsList from '../reviews-list/reviews-list';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
+
+const REVIEWS_MAX_COUNT = 10;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
@@ -46,6 +48,7 @@ function DetailOfferScreen(): JSX.Element {
   }
 
   const offersForMap = nearbyOffers.concat(offer);
+  const reviewsByDate = reviews.slice().sort((reviewA, reviewB) => reviewB.id - reviewA.id).slice(0, REVIEWS_MAX_COUNT);
 
   return (
     <div className="page">
@@ -147,8 +150,8 @@ function DetailOfferScreen(): JSX.Element {
                   </p>
                 </div>
               </div>
-              <Reviews
-                reviews={reviews}
+              <ReviewsList
+                reviews={reviewsByDate}
               />
               {authorizationStatus === AuthorizationStatus.Auth && <SendingReviewForm id={params.id} />}
             </div>

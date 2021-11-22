@@ -39,15 +39,13 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        // Тут бы как-то проверить имя пользователя и использовать
-        //dispatch(setUsername(name));
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      })
-      .catch(() => {
-        toast.info(AUTH_FAIL_MESSAGE);
-      });
+    try {
+      const { data } = await api.get(APIRoute.Login);
+      dispatch(setUsername(data.email));
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    } catch {
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 export const loginAction = ({ login: email, password }: AuthData): ThunkActionResult =>
