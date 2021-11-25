@@ -106,18 +106,18 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
       >
       </textarea>
       <div className="reviews__button-wrapper">
-        <p className="reviews__help"> {/* no more than */}
+        <p className="reviews__help">
           To submit review please make sure to set
           <span className="reviews__star">rating</span>
           and describe your stay with
-          {commentText.length < 50
+          {commentText.length < MIN_SYMBOLS
             ? <b className="reviews__text-amount"> at least {MIN_SYMBOLS - commentText.length} characters</b>
             : <b className="reviews__text-amount"> no more than {MAX_SYMBOLS - commentText.length} characters</b>}
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={commentText.length < 50 || commentText.length > 300}
+          disabled={commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS}
         >Submit
         </button>
       </div>

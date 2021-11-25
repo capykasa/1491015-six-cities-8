@@ -2,10 +2,19 @@ import Logo from '../logo/logo';
 import { useRef, FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAction } from '../../store/api-actions';
+import { AppRoute, Cities } from '../../const';
+import { selectCity } from '../../store/action';
+import { Link } from 'react-router-dom';
 
 function LoginScreen(): JSX.Element {
 
   const dispatch = useDispatch();
+
+  const onSelectCity = (selectedCity: string) => {
+    dispatch(selectCity(selectedCity));
+  };
+
+  const randomCity = Cities[Math.floor(Math.random() * Cities.length)];
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -72,6 +81,19 @@ function LoginScreen(): JSX.Element {
                 Sign in
               </button>
             </form>
+          </section>
+          <section className="locations locations--login locations--current">
+            <div className="locations__item">
+              <Link
+                onClick={() => {
+                  onSelectCity(randomCity);
+                }}
+                className="locations__item-link"
+                to={AppRoute.Main}
+              >
+                <span>{randomCity}</span>
+              </Link>
+            </div>
           </section>
         </div>
       </main>

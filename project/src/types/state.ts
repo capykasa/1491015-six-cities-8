@@ -12,6 +12,7 @@ export type Data = {
   offers: Offer[],
   reviews: Review[],
   nearbyOffers: Offer[],
+  favoriteOffers: Offer[],
   nearbyOffersForId: number | null;
 };
 

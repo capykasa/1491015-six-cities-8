@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { AuthorizationStatus, FavoritesButtonSizeDetail } from '../../const';
+import { AuthorizationStatus, FavoritesButtonSizeDetail, PERCENTAGE_FOR_ONE_STAR } from '../../const';
 import { fetchNearbyOffersAction, fetchReviewAction } from '../../store/api-actions';
 import { getNearbyOffers, getNearbyOffersForId, getOffers, getReviews } from '../../store/data-reducer/selectors';
 import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
@@ -15,6 +15,7 @@ import ReviewsList from '../reviews-list/reviews-list';
 import SendingReviewForm from '../sending-review-form/sending-review-form';
 
 const REVIEWS_MAX_COUNT = 10;
+const IMAGE_MAX_COUNT = 6;
 
 const paramToNumber = (id: string): number => parseInt(id.replace(':', ''), 10);
 
@@ -49,6 +50,7 @@ function DetailOfferScreen(): JSX.Element {
 
   const offersForMap = nearbyOffers.concat(offer);
   const reviewsByDate = reviews.slice().sort((reviewA, reviewB) => reviewB.id - reviewA.id).slice(0, REVIEWS_MAX_COUNT);
+  const imagesToDisplay = offer.images.slice(0, IMAGE_MAX_COUNT);
 
   return (
     <div className="page">
@@ -67,7 +69,7 @@ function DetailOfferScreen(): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.images.map((image) => (
+              {imagesToDisplay.map((image) => (
                 <div
                   key={image}
                   className="property__image-wrapper"
@@ -81,9 +83,7 @@ function DetailOfferScreen(): JSX.Element {
             <div className="property__wrapper">
               {offer.isPremium ?
                 <div className="property__mark">
-                  <div className="place-card__mark">
-                    <span>Premium</span>
-                  </div>
+                  <span>Premium</span>
                 </div> : ''}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
@@ -94,11 +94,12 @@ function DetailOfferScreen(): JSX.Element {
                   isFavorite={offer.isFavorite}
                   width={FavoritesButtonSizeDetail.Width}
                   height={FavoritesButtonSizeDetail.Height}
+                  property
                 />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: `${offer.rating * 20}%` }}></span>
+                  <span style={{ width: `${offer.rating * PERCENTAGE_FOR_ONE_STAR}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{offer.rating}</span>
@@ -108,10 +109,10 @@ function DetailOfferScreen(): JSX.Element {
                   {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms}
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {offer.maxAdults}
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">

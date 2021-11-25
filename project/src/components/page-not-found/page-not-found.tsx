@@ -17,7 +17,7 @@ function PageNotFound(): JSX.Element {
           404.
           <br />
           <small>Page not found</small>
-          <h6><Link to="/">{'>'} Go to main page {'<'}</Link></h6>
+          <p><Link to="/">{'>'} Go to main page {'<'}</Link></p>
         </h1>
       </main>
     </div>

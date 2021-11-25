@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FavoritesButtonSizeMain } from '../../const';
+import { FavoritesButtonSizeMain, PERCENTAGE_FOR_ONE_STAR } from '../../const';
 import { Offer } from '../../types/offers';
 import FavoritesButton from '../favorites-button/favorites-button';
 
@@ -27,7 +27,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{ width: `${rating * 20}%` }}></span>
+          <span style={{ width: `${rating * PERCENTAGE_FOR_ONE_STAR}%` }}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>

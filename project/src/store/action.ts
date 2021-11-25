@@ -32,6 +32,13 @@ export const loadNearbyOffers = createAction(
   }),
 );
 
+export const loadFavoriteOffers = createAction(
+  ActionType.LoadFavoriteOffers,
+  (offers: Offer[]) => ({
+    payload: offers,
+  }),
+);
+
 export const loadReviews = createAction(
   ActionType.LoadReviews,
   (reviews: Review[]) => ({

@@ -11,6 +11,14 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum APIRoute {
+  Offers = '/hotels',
+  Reviews = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+  Favorite = '/favorite'
+}
+
 export const Cities = [
   'Paris',
   'Cologne',
@@ -20,19 +28,18 @@ export const Cities = [
   'Dusseldorf',
 ];
 
-export enum DefaultCity {
-  title = 'Paris',
-  latitude = 48.85661,
-  longitude = 2.351499,
-  zoom = 13,
-}
-
-
 export enum Sorting {
   Popular = 'Popular',
   PriceToHigh = 'Price: low to high',
   PriceToLow = 'Price: high to low',
   TopRated = 'Top rated first',
+}
+
+export enum DefaultCity {
+  title = 'Paris',
+  latitude = 48.85661,
+  longitude = 2.351499,
+  zoom = 13,
 }
 
 export enum FooterLogoSize {
@@ -50,14 +57,9 @@ export enum FavoritesButtonSizeDetail {
   Height = '33',
 }
 
-export enum APIRoute {
-  Offers = '/hotels',
-  Reviews = '/comments',
-  Login = '/login',
-  Logout = '/logout',
-  Favorite = '/favorite'
+export enum MarkerUrl {
+  DefaultMarker = '../img/pin.svg',
+  CurrentMarker = '../img/pin-active.svg',
 }
 
-export const URL_MARKER_DEFAULT = '../img/pin.svg';
-
-export const URL_MARKER_CURRENT = '../img/pin-active.svg';
+export const PERCENTAGE_FOR_ONE_STAR = 20;

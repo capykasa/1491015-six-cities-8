@@ -1,5 +1,5 @@
 import { ThunkActionResult } from '../types/action';
-import { setUsername, loadNearbyOffers, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout } from './action';
+import { setUsername, loadNearbyOffers, loadOffers, loadReviews, redirectToRoute, requireAuthorization, requireLogout, loadFavoriteOffers } from './action';
 import { saveToken, dropToken, Token } from '../services/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offers';
@@ -35,6 +35,15 @@ export const fetchNearbyOffersAction = (id: string): ThunkActionResult =>
     const adaptedData = data.map((item) => (adaptOfferToClient(item)));
 
     dispatch(loadNearbyOffers(adaptedData, parseInt(id, 10)));
+  };
+
+export const fetchFavoriteOfferAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const { data } = await api.get<Offer[]>(APIRoute.Favorite);
+
+    const adaptedData = data.map((item) => (adaptOfferToClient(item)));
+
+    dispatch(loadFavoriteOffers(adaptedData));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

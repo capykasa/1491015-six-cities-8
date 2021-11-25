@@ -10,10 +10,11 @@ type FavoritesButtonProps = {
   isFavorite: boolean;
   width: string;
   height: string;
+  property?: boolean;
 }
 
 function FavoritesButton(props: FavoritesButtonProps): JSX.Element {
-  const { id, isFavorite, width, height } = props;
+  const { id, isFavorite, width, height, property = false } = props;
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
@@ -34,11 +35,14 @@ function FavoritesButton(props: FavoritesButtonProps): JSX.Element {
           ? changeFavoriteStatus(id, isFavorite)
           : history.push(AppRoute.Login);
       }}
-      className={`place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+      className={`${property
+        ? `property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`
+        : `place-card__bookmark-button ${isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+        `}
       type="button"
     >
       <svg
-        className="place-card__bookmark-icon"
+        className={`${property ? 'property__bookmark-icon' : 'place-card__bookmark-icon'}`}
         width={width}
         height={height}
       >
