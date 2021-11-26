@@ -28,13 +28,21 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
 
   const dispatch = useDispatch();
 
+  const isReviewValid = (text: string, rating: number) => {
+    if (text.length < MIN_SYMBOLS || text.length > MAX_SYMBOLS) {
+      return false;
+    }
+    if (!rating) {
+      return false;
+    }
+    return true;
+  };
+
   const onSubmit = (review: ReviewPost, reviewId: string) => {
     api.post<Review>(`${APIRoute.Reviews}/${reviewId}`, review)
       .then(() => {
         dispatch(fetchReviewAction(reviewId));
-        console.log(disabledForm); // Возвращает true
         setDisabledForm(false);
-        console.log(disabledForm); // Возвращает true. Чтоооооооооооооооооооооооооооо?
       })
       .then(() => {
         setCommentText('');
@@ -42,14 +50,17 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
       })
       .catch(() => {
         toast.info(FORM_SUBMISSION_ERROR);
+      })
+      .finally(() => {
         setDisabledForm(false);
       });
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    await setDisabledForm(true);
     evt.preventDefault();
 
-    if (commentText.length >= MIN_SYMBOLS && commentText.length <= MAX_SYMBOLS && ratingValue !== undefined) {
+    if (isReviewValid(commentText, ratingValue)) {
       onSubmit(
         {
           rating: ratingValue,
@@ -123,13 +134,9 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
             : <b className="reviews__text-amount"> no more than {MAX_SYMBOLS - commentText.length} characters</b>}
         </p>
         <button
-          onClick={() => {
-            setDisabledForm(true); // Не работает сразу после клика
-            console.log(disabledForm); // Возвращает false. Почему?
-          }}
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS}
+          disabled={!isReviewValid(commentText, ratingValue) || disabledForm}
         >Submit
         </button>
       </div>
