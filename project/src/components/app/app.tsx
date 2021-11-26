@@ -35,16 +35,12 @@ function App(props: PropsFromRedux): JSX.Element {
         <Route exact path={AppRoute.Main}>
           <MainScreen />
         </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.Login}
-          render={() => <LoginScreen />}
-        >
-        </PrivateRoute>
+        <Route exact path={AppRoute.Login}>
+          <LoginScreen />
+        </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          favorites
           render={() => <FavoritesScreen />}
         >
         </PrivateRoute>

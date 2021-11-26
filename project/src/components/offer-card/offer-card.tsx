@@ -27,7 +27,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{ width: `${rating * PERCENTAGE_FOR_ONE_STAR}%` }}></span>
+          <span style={{ width: `${Math.round(rating) * PERCENTAGE_FOR_ONE_STAR}%` }}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>

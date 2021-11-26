@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
@@ -21,6 +22,7 @@ type SendingReviewFormProps = {
 function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
   const { id } = props;
 
+  const [disabledForm, setDisabledForm] = useState<boolean>(false);
   const [commentText, setCommentText] = useState<string>('');
   const [ratingValue, setRatingValue] = useState<number>(0);
 
@@ -74,6 +76,7 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
             key={star}
           >
             <input
+              disabled={disabledForm}
               className="form__rating-input visually-hidden"
               name="rating"
               value={star}
@@ -97,6 +100,7 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
           setCommentText(target.value);
         }}
+        disabled={disabledForm}
         value={commentText}
         className="reviews__textarea form__textarea"
         id="review"
@@ -115,9 +119,12 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
             : <b className="reviews__text-amount"> no more than {MAX_SYMBOLS - commentText.length} characters</b>}
         </p>
         <button
+          onClick={() => {
+            setDisabledForm(true); // Не работает сразу после клика
+          }}
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS}
+          disabled={disabledForm && (commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS)}
         >Submit
         </button>
       </div>

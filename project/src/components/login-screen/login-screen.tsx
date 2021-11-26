@@ -1,12 +1,17 @@
 import Logo from '../logo/logo';
-import { useRef, FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, FormEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from '../../store/api-actions';
-import { AppRoute, Cities } from '../../const';
+import { AppRoute, AuthorizationStatus, Cities } from '../../const';
 import { selectCity } from '../../store/action';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { getAuthorizationStatus } from '../../store/user-reducer/selectors';
 
 function LoginScreen(): JSX.Element {
+
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -29,6 +34,12 @@ function LoginScreen(): JSX.Element {
       }));
     }
   };
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      history.push(AppRoute.Main);
+    }
+  }, []);
 
   return (
     <div className="page page--gray page--login">
@@ -71,6 +82,8 @@ function LoginScreen(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
+                  pattern="(?=.*\d)(?=.*[A-Za-z]).*"
+                  title="Пароль должен содержать минимум одну букву и цифру"
                   required
                 />
               </div>
