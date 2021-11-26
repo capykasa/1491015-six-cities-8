@@ -16,7 +16,7 @@ function FavoritesScreen(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchFavoriteOfferAction());
-  }, [dispatch]); // Надо вызывать fetchFavoriteOfferAction каждый раз при удалении из избранного
+  }, [dispatch]);
 
   return (
     <div className={favoritesOffers.length === 0 ? 'page page--favorites-empty' : 'page'}>

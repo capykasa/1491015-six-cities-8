@@ -5,14 +5,6 @@ type ReviewUser = {
   name: string;
 };
 
-export type ReviewComment = {
-  comment: string | null;
-};
-
-export type ReviewRating = {
-  rating: number;
-};
-
 export type Review = {
   comment: string | null;
   date: string;

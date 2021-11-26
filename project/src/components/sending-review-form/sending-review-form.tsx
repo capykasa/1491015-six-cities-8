@@ -32,6 +32,9 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
     api.post<Review>(`${APIRoute.Reviews}/${reviewId}`, review)
       .then(() => {
         dispatch(fetchReviewAction(reviewId));
+        console.log(disabledForm); // Возвращает true
+        setDisabledForm(false);
+        console.log(disabledForm); // Возвращает true. Чтоооооооооооооооооооооооооооо?
       })
       .then(() => {
         setCommentText('');
@@ -39,6 +42,7 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
       })
       .catch(() => {
         toast.info(FORM_SUBMISSION_ERROR);
+        setDisabledForm(false);
       });
   };
 
@@ -121,10 +125,11 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
         <button
           onClick={() => {
             setDisabledForm(true); // Не работает сразу после клика
+            console.log(disabledForm); // Возвращает false. Почему?
           }}
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={disabledForm && (commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS)}
+          disabled={commentText.length < MIN_SYMBOLS || commentText.length > MAX_SYMBOLS}
         >Submit
         </button>
       </div>

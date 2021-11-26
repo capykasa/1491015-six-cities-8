@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Sorting } from '../../const';
 
 type SortMenuProps = {
-  onSelectSort: (sort: string) => void;
+  hudleSelectSort: (sort: string) => void;
 }
 
-function SortMenu({ onSelectSort }: SortMenuProps): JSX.Element {
+function SortMenu({ hudleSelectSort }: SortMenuProps): JSX.Element {
   const [selectedSort, setSelectedSort] = useState<string>('Popular');
   const [openSort, setOpenSort] = useState<boolean>(false);
 
@@ -32,7 +32,7 @@ function SortMenu({ onSelectSort }: SortMenuProps): JSX.Element {
               tabIndex={0}
               onClick={() => {
                 setSelectedSort(item);
-                onSelectSort(item);
+                hudleSelectSort(item);
                 setOpenSort(false);
               }}
             >

@@ -27,10 +27,19 @@ const dataReducer = createReducer(initialState, (builder) => {
     })
     .addCase(toggleOfferIsFavorite, (state, action) => {
       const offerById = state.offers.find((offer) => offer.id === action.payload.id);
-      if (!offerById) {
-        return;
+      const nearbyOfferById = state.nearbyOffers.find((offer) => offer.id === action.payload.id);
+      const favoriteOfferById = state.favoriteOffers.find((offer) => offer.id === action.payload.id);
+      if (offerById) {
+        offerById.isFavorite = action.payload.isFavorite;
       }
-      offerById.isFavorite = action.payload.isFavorite;
+
+      if (nearbyOfferById) {
+        nearbyOfferById.isFavorite = action.payload.isFavorite;
+      }
+
+      if (favoriteOfferById) {
+        favoriteOfferById.isFavorite = action.payload.isFavorite;
+      }
     });
 });
 

@@ -4,15 +4,15 @@ import { offersReducer } from './offers-reducer/offers-reducer';
 import { userReducer } from './user-reducer/user-reducer';
 
 export enum NameSpace {
-  offers = 'OFFERS',
-  data = 'DATA',
-  user = 'USER',
+  Offers = 'OFFERS',
+  Data = 'DATA',
+  User = 'USER',
 }
 
 export const reducer = combineReducers({
-  [NameSpace.offers]: offersReducer,
-  [NameSpace.data]: dataReducer,
-  [NameSpace.user]: userReducer,
+  [NameSpace.Offers]: offersReducer,
+  [NameSpace.Data]: dataReducer,
+  [NameSpace.User]: userReducer,
 });
 
 export type RootState = ReturnType<typeof reducer>;
