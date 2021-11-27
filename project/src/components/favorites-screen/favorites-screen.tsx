@@ -4,7 +4,7 @@ import HeaderUser from '../header-user/header-user';
 import { getFavoriteOffers } from '../../store/data-reducer/selectors';
 import EmptyFavoritesList from '../empty-favorites-list/empty-favorites-list';
 import { FooterLogoSize } from '../../const';
-import FvoritesOffersList from '../favorites-offers-list/favorites-offers-list';
+import FavoritesOffersList from '../favorites-offers-list/favorites-offers-list';
 import { useEffect } from 'react';
 import { fetchFavoriteOfferAction } from '../../store/api-actions';
 
@@ -33,7 +33,7 @@ function FavoritesScreen(): JSX.Element {
 
       {favoritesOffers.length === 0
         ? <EmptyFavoritesList />
-        : <FvoritesOffersList offers={favoritesOffers} />}
+        : <FavoritesOffersList offers={favoritesOffers} />}
 
       <footer className="footer">
         <Logo

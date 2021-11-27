@@ -3,10 +3,10 @@ import { Cities } from '../../const';
 
 type CitiesListProps = {
   city: string;
-  hundleSelectCity: (city: string) => void;
+  onSelectCity: (city: string) => void;
 }
 
-function CitiesList({ city, hundleSelectCity }: CitiesListProps): JSX.Element {
+function CitiesList({ city, onSelectCity }: CitiesListProps): JSX.Element {
 
   return (
     <div className="tabs">
@@ -19,7 +19,7 @@ function CitiesList({ city, hundleSelectCity }: CitiesListProps): JSX.Element {
             >
               <Link to=''
                 onClick={() => {
-                  hundleSelectCity(item);
+                  onSelectCity(item);
                 }}
                 className={city === item ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
               >

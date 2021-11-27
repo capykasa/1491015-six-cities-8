@@ -4,20 +4,20 @@ import OfferCard from '../offer-card/offer-card';
 
 type OffersListProps = {
   offers: Offer[];
-  hudleOffersListHover: (OffersListName: Offer | undefined) => void;
+  onOffersListHover: (OffersListName: Offer | undefined) => void;
 }
 
-function MainOffersList({ offers, hudleOffersListHover }: OffersListProps): JSX.Element {
+function MainOffersList({ offers, onOffersListHover }: OffersListProps): JSX.Element {
 
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((item: Offer) => (
         <article key={item.id}
           onMouseEnter={() => {
-            hudleOffersListHover(item);
+            onOffersListHover(item);
           }}
           onMouseLeave={() => {
-            hudleOffersListHover(undefined);
+            onOffersListHover(undefined);
           }}
           className="cities__place-card place-card"
         >

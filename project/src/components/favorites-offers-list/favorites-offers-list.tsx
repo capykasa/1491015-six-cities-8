@@ -9,7 +9,7 @@ type OffersListProps = {
   offers: Offer[];
 }
 
-function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
+function FavoritesOffersList({ offers }: OffersListProps): JSX.Element {
 
   const individualCities = Array.from(new Set(offers.map((offer) => offer.city.name)));
 
@@ -73,4 +73,4 @@ function FvoritesOffersList({ offers }: OffersListProps): JSX.Element {
   );
 }
 
-export default FvoritesOffersList;
+export default FavoritesOffersList;
