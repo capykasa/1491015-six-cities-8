@@ -15,7 +15,7 @@ function FavoritesOffersList({ offers }: OffersListProps): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const onSelectCity = (selectedCity: string) => {
+  const handleSelectCity = (selectedCity: string) => {
     dispatch(selectCity(selectedCity));
   };
 
@@ -34,7 +34,7 @@ function FavoritesOffersList({ offers }: OffersListProps): JSX.Element {
                   <div className="locations__item">
                     <Link
                       onClick={() => {
-                        onSelectCity(favoriteCity);
+                        handleSelectCity(favoriteCity);
                       }}
                       className="locations__item-link"
                       to={AppRoute.Main}

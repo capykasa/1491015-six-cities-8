@@ -23,11 +23,11 @@ function MainScreen(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const handleSelectSort = (selectedSort: string) => {
+  const onSelectSort = (selectedSort: string) => {
     dispatch(selectSort(selectedSort));
   };
 
-  const handleSelectCity = (selectedCity: string) => {
+  const onSelectCity = (selectedCity: string) => {
     dispatch(selectCity(selectedCity));
   };
 
@@ -35,7 +35,7 @@ function MainScreen(): JSX.Element {
 
   const cityOnMap = offers.length ? offers[0].city.location : DefaultCity;
 
-  const handleOffersListHover = (OfferList: Offer | undefined) => {
+  const onOffersListHover = (OfferList: Offer | undefined) => {
     setSelectedPoint(OfferList);
   };
 
@@ -56,7 +56,7 @@ function MainScreen(): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <CitiesList
           city={city}
-          onSelectCity={handleSelectCity}
+          onSelectCity={onSelectCity}
         />
         {offers.length > 0 ?
           <div className="cities">
@@ -65,11 +65,11 @@ function MainScreen(): JSX.Element {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offers.length} places to stay in {city}</b>
                 <SortMenu
-                  onSelectSort={handleSelectSort}
+                  onSelectSort={onSelectSort}
                 />
                 <MainOffersList
                   offers={offers}
-                  onOffersListHover={handleOffersListHover}
+                  onOffersListHover={onOffersListHover}
                 />
               </section>
               <div className="cities__right-section">
