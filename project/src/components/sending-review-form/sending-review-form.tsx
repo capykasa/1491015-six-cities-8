@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
@@ -58,9 +57,9 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    setDisabledForm(true);
 
     if (isReviewValid(commentText, ratingValue)) {
+      setDisabledForm(true);
       onSubmit(
         {
           rating: ratingValue,
