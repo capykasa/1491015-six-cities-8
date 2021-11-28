@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React, { ChangeEvent, useState } from 'react';
 import { FormEvent } from 'react';
-import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { APIRoute } from '../../const';
@@ -59,22 +58,18 @@ function SendingReviewForm(props: SendingReviewFormProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    Promise.resolve().then((res) => {
-      ReactDOM.unstable_batchedUpdates(() => {
-        setDisabledForm(true);
+    setDisabledForm(true);
 
-        if (isReviewValid(commentText, ratingValue)) {
-          onSubmit(
-            {
-              rating: ratingValue,
-              comment: commentText,
-            },
-            id);
-        } else {
-          toast.info(FORM_SUBMISSION_RULES);
-        }
-      });
-    });
+    if (isReviewValid(commentText, ratingValue)) {
+      onSubmit(
+        {
+          rating: ratingValue,
+          comment: commentText,
+        },
+        id);
+    } else {
+      toast.info(FORM_SUBMISSION_RULES);
+    }
   };
 
   return (

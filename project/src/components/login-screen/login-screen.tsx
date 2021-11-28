@@ -15,7 +15,7 @@ function LoginScreen(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const onSelectCity = (selectedCity: string) => {
+  const handleSelectCity = (selectedCity: string) => {
     dispatch(selectCity(selectedCity));
   };
 
@@ -99,7 +99,7 @@ function LoginScreen(): JSX.Element {
             <div className="locations__item">
               <Link
                 onClick={() => {
-                  onSelectCity(randomCity);
+                  handleSelectCity(randomCity);
                 }}
                 className="locations__item-link"
                 to={AppRoute.Main}
